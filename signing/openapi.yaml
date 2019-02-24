@@ -1,0 +1,49 @@
+openapi: 3.0.*
+info:
+  title: Signing Service
+  version: 1.0.0
+components:
+  schemas:
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+paths:
+  /sign:
+    post:
+      description: Produce a JWT with the request body.
+      responses:
+        200:
+          description: Successful handling.
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - token
+                properties:
+                  token:
+                    type: string
+        500:
+          description: Internal Error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /verify:
+    post:
+      description: Verify that the given JWT is valid.
+      responses:
+        401:
+          description: Expired or malformed token.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        500:
+          description: Internal Error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"

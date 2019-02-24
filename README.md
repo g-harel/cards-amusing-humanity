@@ -18,7 +18,7 @@ Round starts and player sees a black card and a number of white cards. They pick
 - sign arbitrary payloads (ex. JSON string)
 - verify signatures
 
-### Card
+### Card (internal)
 
 - contains card data
 - creates rounds (and fetches a signature)
