@@ -22,10 +22,10 @@ tables.
 
 |    Cards       | HTTP  Method                  | Route                       |  Description                    |
 |----------------|-------------------------------|-----------------------------|----------------------------------|
-| Brewer         |`GET`                          |`api/brewer/answers/<number>` | Get a number of answer card in random order |
-| Brewer         |`GET`                          |`api/brewer/questions/<number>` | Get a number of question card in random order |
-| Answers         |`GET`                          |`api/answers/<UUID>` | Get a specific answer card        |
+| Brewer         |`GET`                          |`api/brewer/answers` | Get a number of answer card in random order |
+| Brewer         |`GET`                          |`api/brewer/questions` | Get a number of question card in random order |
+| Answers         |`GET`                          |`api/answers/{id}` | Get a specific answer card        |
 | Answers         |`GET`                          |`api/answers` | Get all answer cards        |
-| Questions         |`GET`                          |`api/questions/<UUID>` | Get a specific question card        |
+| Questions         |`GET`                          |`api/questions/{id}` | Get a specific question card        |
 | Questions         |`GET`                          |`api/questions` | Get all question cards        |
 | General         |`GET`                          |`/` | Get home page of service        |
