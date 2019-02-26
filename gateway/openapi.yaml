@@ -1,0 +1,135 @@
+openapi: "3.0.0"
+info:
+  version: 1.0.0
+  title: Gateway Service
+  description: A service acting as a gate to prevent attacks.
+  contact:
+    url: https://github.com/g-harel/SOEN487/
+    
+paths:
+  /game:
+    get:
+      description: |
+        Returns a brand new game. 
+      operationId: Start Game.
+      responses:
+        '200':
+          description: Return a brand new game with new random cards.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Game'
+        "404":
+          description: Resource not found, error return in case of attack.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /submit:
+    post:
+      description: Submit a game outcome.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Game"
+      responses:
+        "200":
+          description: Successful handling.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Result"
+        "401":
+          description: Expired or malformed token.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "403":
+          description: Duplicate game submission.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "500":
+          description: Internal Error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+                
+  /app:
+    get:
+      description: Obtain link to static HTML front-end application.
+      operationId: Get Front-End
+      responses:
+        "200":
+          description: Successful handling.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/App"
+        "401":
+          description: Expired or malformed token.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "403":
+          description: Duplicate game submission.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "500":
+          description: Internal Error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    
+components:
+  schemas:
+    Error:
+      type: object
+      required:
+      - error
+      properties:
+        error:
+          type: string
+    Game:
+      type: object
+      required:
+      - choice
+      - token
+      properties:
+        choice:
+          type: string
+        token:
+          type: string
+    App:
+      type: object
+      required:
+      - app
+      properties:
+        app:
+          type: string
+    Result:
+      type: object
+      required:
+      - similarity
+      properties:
+        similarity:
+          type: number
+          minimum: 0
+          maximum: 100
