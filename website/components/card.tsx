@@ -1,21 +1,63 @@
 import React from "react";
-import styled from "styled-components";
+import styled, {css} from "styled-components";
 
-export interface Props {
+interface SharedProps {
+    // TODO hover interactions + selected state
+    clickable?: boolean;
+}
+
+export interface Props extends SharedProps {
     type: "black" | "white" | "outline";
     content: string;
+}
+
+interface BaseProps {
+    angle?: number;
+    x?: number;
+    y?: number;
 }
 
 const Wrapper = styled.div`
     padding: 3rem;
 `;
 
-const Base = styled.div`
+const Base = styled.div<BaseProps>`
     border-radius: 0.7rem;
     font-weight: 600;
     height: 18rem;
     padding: 1rem 1.5rem;
     width: 13rem;
+
+    /* TODO logo ::after */
+
+    ${(p) => css`
+        transform: rotate(${p.angle || 0}deg)
+            translate(${p.x || 0}rem, ${p.y || 0}rem);
+    `}
+`;
+
+const Solid = styled(Base)`
+    /* Used to style both "Black" and "White" together */
+`;
+
+const Black = styled(Solid)`
+    background-color: #000;
+    color: #fff;
+`;
+
+const White = styled(Solid)`
+    background-color: #fff;
+    color: #000;
+`;
+
+const Shadow = styled(Base)`
+    background-color: #000;
+    opacity: 0.1;
+`;
+
+const Outline = styled(Base)`
+    border: 0.1rem dashed #fff;
+    opacity: 0.4;
 `;
 
 const Collapse = styled.div`
@@ -28,13 +70,7 @@ export const Card: React.StatelessComponent<Props> = (props) => {
     if (props.type === "outline") {
         return (
             <Wrapper>
-                <Base
-                    style={{
-                        border: "0.1rem dashed #fff",
-                        opacity: 0.4,
-                        transform: `rotate(${angle}deg)`,
-                    }}
-                />
+                <Outline angle={angle} />
             </Wrapper>
         );
     }
@@ -42,24 +78,13 @@ export const Card: React.StatelessComponent<Props> = (props) => {
     return (
         <Wrapper>
             <Collapse>
-                <Base
-                    style={{
-                        backgroundColor: "#000",
-                        opacity: 0.1,
-                        transform: `rotate(${angle}deg) translate(-0.8rem, 0.5rem)`,
-                    }}
-                />
+                <Shadow angle={angle} x={-0.8} y={0.5} />
             </Collapse>
-            <Base
-                style={{
-                    backgroundColor: props.type === "black" ? "#000" : "#fff",
-                    color: props.type === "black" ? "#fff" : "#000",
-                    transform: `rotate(${angle}deg)`,
-                }}
-            >
-                {props.content}
-                {/* TODO logo */}
-            </Base>
+            {props.type === "black" ? (
+                <Black angle={angle}>{props.content}</Black>
+            ) : (
+                <White angle={angle}>{props.content}</White>
+            )}
         </Wrapper>
     );
 };
