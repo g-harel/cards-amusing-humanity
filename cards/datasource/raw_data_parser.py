@@ -1,12 +1,12 @@
 import json
 from util.uuid_generator import UuidGenerator
 
+
 class ParseRawData:
     DEFAULT_DATA_PATH = './resources/cards.json'
 
     def __init__(self, raw_data_path=DEFAULT_DATA_PATH):
         self.DEFAULT_DATA_PATH = raw_data_path
-
 
     @staticmethod
     def parse_cards_json(path_to_json=DEFAULT_DATA_PATH):

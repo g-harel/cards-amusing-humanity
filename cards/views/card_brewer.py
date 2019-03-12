@@ -1,11 +1,8 @@
 from flask import Blueprint, jsonify, make_response
 from datasource.database import db
 import random
-import datetime
 from domain.models.answer import Answer, row2dict
-from domain.models.history import History
 from domain.models.question import Question, row2dict
-from util.uuid_generator import UuidGenerator
 
 brew = Blueprint('brewer', __name__, url_prefix='/api/brewer')
 
@@ -53,15 +50,6 @@ def get_random_question(number_of_item):
                 random_questions.append(row)
                 counter = counter + 1
 
-        for question in random_questions:
-            new_id = UuidGenerator().generate_uuid()
-            now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            new_his = History(id=new_id, card_id=question.id,
-                              text_sent=question.text,
-                              time_sent=now)
-            db.session.add(new_his)
-
-        db.session.commit()
         return jsonify([row2dict(question) for question in random_questions])
     except Exception as error:
         print("Problem while getting random questions")

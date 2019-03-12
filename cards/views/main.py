@@ -10,5 +10,4 @@ def page_not_found(e):
 
 @main.route('/')
 def soen487_a1():
-    return jsonify({"title": "SOEN487 Assignment 1",
-                    "student": {"id": "27417888", "name": "Charles-Antoine Hardy"}})
+    return jsonify({"title": "Card Services"})

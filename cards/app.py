@@ -1,5 +1,5 @@
 from flask import Flask
-from views import answers, questions, card_brewer, history, main
+from views import answers, questions, card_brewer, main
 from settings import DatabaseConfig
 from datasource.database import db
 
@@ -13,7 +13,6 @@ def create_app():
     app.register_blueprint(answers.ans)
     app.register_blueprint(questions.ques)
     app.register_blueprint(card_brewer.brew)
-    app.register_blueprint(history.his)
     app.register_blueprint(main.main)
     return app
 

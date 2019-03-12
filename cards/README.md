@@ -96,14 +96,6 @@ tables.
 - `GET`, `/api/brewer/answers/<number_of_item>` returns X number of random answers
 - `GET`, `/api/brewer/questions/<number_of_item>` return X number of random questions
 
-### History
-
-Keep an history of question served. 
-
-##### Route:
-- `GET`, `/api/history` returns all questions served
-
-
 ### Main
 
 Basic server route configuration
@@ -121,5 +113,3 @@ All tests are written inside `tests` folder.
 Simply run `flask run` after having the database setup.
 
 ## Deploy with Docker
-
-NOT READY YET

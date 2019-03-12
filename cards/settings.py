@@ -31,5 +31,4 @@ class DatabaseConfig:
         """Read from configuration file database.ini"""
         db_config = self.grab_configuration()
         db_uri = 'postgresql://%(user)s:%(pw)s@%(host)s:%(port)s/%(db)s' % db_config
-        print(db_uri)
         return db_uri
