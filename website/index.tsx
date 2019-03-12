@@ -33,9 +33,17 @@ const App: React.StatelessComponent = () => (
         <GlobalStyle />
         <Layout>
             <Header />
-            <Card type="black" content="What helps Obama unwind?" />
+            <Card
+                type="black"
+                content="What helps Obama unwind?"
+                onClick={() => console.log("black")}
+            />
             <Card type="outline" content="" />
-            <Card type="white" content="Daddy's credit card." />
+            <Card
+                type="white"
+                content="Daddy's credit card."
+                onClick={() => console.log("white")}
+            />
         </Layout>
     </Fragment>
 );

@@ -1,14 +1,10 @@
 import React from "react";
 import styled, {css} from "styled-components";
 
-interface SharedProps {
-    // TODO hover interactions + selected state
-    clickable?: boolean;
-}
-
-export interface Props extends SharedProps {
+export interface Props {
     type: "black" | "white" | "outline";
     content: string;
+    onClick?: () => any;
 }
 
 interface BaseProps {
@@ -26,6 +22,8 @@ const Base = styled.div<BaseProps>`
     font-weight: 600;
     height: 18rem;
     padding: 1rem 1.5rem;
+    transition: transform 0.1s ease;
+    user-select: none;
     width: 13rem;
 
     /* TODO logo ::after */
@@ -36,8 +34,34 @@ const Base = styled.div<BaseProps>`
     `}
 `;
 
-const Solid = styled(Base)`
-    /* Used to style both "Black" and "White" together */
+// Used to style both "Black" and "White" together.
+const Solid = styled(Base)<BaseProps>`
+    cursor: pointer;
+
+    &:hover {
+        ${(p) => css`
+            transform: rotate(
+                    calc(
+                        ${p.angle || 0}deg ${(p.angle || 0) < 0 ? "+" : "-"}
+                            0.3deg
+                    )
+                )
+                scale(1.008) translate(${p.x || 0}rem, ${p.y || 0}rem);
+        `}
+    }
+
+    &:active {
+        /* Remove hover styles. */
+        ${(p) => css`
+            transform: rotate(
+                    calc(
+                        ${p.angle || 0}deg ${(p.angle || 0) < 0 ? "+" : "-"}
+                            0.3deg
+                    )
+                )
+                translate(${p.x || 0}rem, ${p.y || 0}rem);
+        `}
+    }
 `;
 
 const Black = styled(Solid)`
@@ -81,9 +105,13 @@ export const Card: React.StatelessComponent<Props> = (props) => {
                 <Shadow angle={angle} x={-0.8} y={0.5} />
             </Collapse>
             {props.type === "black" ? (
-                <Black angle={angle}>{props.content}</Black>
+                <Black angle={angle} onClick={props.onClick}>
+                    {props.content}
+                </Black>
             ) : (
-                <White angle={angle}>{props.content}</White>
+                <White angle={angle} onClick={props.onClick}>
+                    {props.content}
+                </White>
             )}
         </Wrapper>
     );
