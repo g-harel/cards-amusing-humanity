@@ -70,11 +70,6 @@ The views **views/questions.py** contains CRUD operation.
 ##### Route:
 - `GET`, `/api/questions` returns all questions stored in table
 - `GET`, `/api/questions/<question_id>` return a specific question
-- `POST`, `/api/questions` creates a question
-- `PUT`, `/api/questions/<question_id>` updates specific question
-- `DELETE`, `/api/questions/<question_id>` remove a question
-
-
 ### Answers
 
 Let you **insert/update/delete/read** answers from the questions table.
@@ -83,10 +78,6 @@ The views **views/answers.py** contains CRUD operation.
 ##### Route:
 - `GET`, `/api/answers` returns all answers stored in table
 - `GET`, `/api/answers/<answer_id>` return a specific answer
-- `POST`, `/api/answer` creates an answer
-- `PUT`, `/api/answers/<answer_id>` updates specific answer
-- `DELETE`, `/api/answers/<answer_id>` remove a specific answer
-
 ### Brewer
 
 Let you obtain a random question or answer from the

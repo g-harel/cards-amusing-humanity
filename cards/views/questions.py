@@ -1,7 +1,6 @@
-from flask import Blueprint, jsonify, request, make_response
+from flask import Blueprint, jsonify, make_response
 from domain.models.question import Question, row2dict
 from datasource.database import db
-from util.uuid_generator import UuidGenerator
 
 
 ques = Blueprint('questions', __name__, url_prefix='/api')

@@ -1,6 +1,5 @@
-from flask import Blueprint, jsonify, request, make_response
+from flask import Blueprint, jsonify, make_response
 from domain.models.answer import Answer,  row2dict
-from util.uuid_generator import UuidGenerator
 from datasource.database import db
 
 
