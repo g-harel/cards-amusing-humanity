@@ -1,7 +1,4 @@
-export interface Card {
+export interface ICard {
+    id: string;
     description: string;
-}
-
-export interface Game {
-    cards: Card[];
 }

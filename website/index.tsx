@@ -3,10 +3,11 @@ import ReactDOM from "react-dom";
 import styled, {createGlobalStyle} from "styled-components";
 
 import {Header} from "./components/header";
-import {Card} from "./components/card";
+import {Board} from "./components/board";
 
 const GlobalStyle = createGlobalStyle`
     html, body, #root {
+        background-color: #232323;
         color: #ffffff;
         font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
         font-size: 20px;
@@ -22,8 +23,8 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 const Layout = styled.main`
-    background-color: #232323;
     display: flex;
+    flex-wrap: wrap;
     height: 100%;
     width: 100%;
 `;
@@ -33,17 +34,7 @@ const App: React.StatelessComponent = () => (
         <GlobalStyle />
         <Layout>
             <Header />
-            <Card
-                type="black"
-                content="What helps Obama unwind?"
-                onClick={() => console.log("black")}
-            />
-            <Card type="outline" content="" />
-            <Card
-                type="white"
-                content="Daddy's credit card."
-                onClick={() => console.log("white")}
-            />
+            <Board />
         </Layout>
     </Fragment>
 );

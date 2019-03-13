@@ -13,8 +13,28 @@ interface BaseProps {
     y?: number;
 }
 
+// CSS helper to generate the translate transform.
+const translate = (x?: number, y?: number) => {
+    return `translate(${x || 0}rem, ${y || 0}rem)`;
+};
+
+// CSS helper to generate the rotate transform.
+const rotate = (angle?: number, offset?: number) => {
+    angle = angle || 0;
+
+    if (offset) {
+        if (angle < 0) {
+            angle += offset;
+        } else {
+            angle -= offset;
+        }
+    }
+
+    return `rotate(${angle}deg)`;
+};
+
 const Wrapper = styled.div`
-    padding: 3rem;
+    padding: 1.4rem;
 `;
 
 const Base = styled.div<BaseProps>`
@@ -29,37 +49,25 @@ const Base = styled.div<BaseProps>`
     /* TODO logo ::after */
 
     ${(p) => css`
-        transform: rotate(${p.angle || 0}deg)
-            translate(${p.x || 0}rem, ${p.y || 0}rem);
+        transform: ${rotate(p.angle)} ${translate(p.x, p.y)};
     `}
 `;
 
-// Used to style both "Black" and "White" together.
+// Parent of both "Black" and "White" together.
 const Solid = styled(Base)<BaseProps>`
     cursor: pointer;
 
     &:hover {
         ${(p) => css`
-            transform: rotate(
-                    calc(
-                        ${p.angle || 0}deg ${(p.angle || 0) < 0 ? "+" : "-"}
-                            0.3deg
-                    )
-                )
-                scale(1.008) translate(${p.x || 0}rem, ${p.y || 0}rem);
+            transform: scale(1.008) ${rotate(p.angle, 0.3)}
+                ${translate(p.x, p.y)};
         `}
     }
 
     &:active {
-        /* Remove hover styles. */
+        /* Remove hover state's scale transform. */
         ${(p) => css`
-            transform: rotate(
-                    calc(
-                        ${p.angle || 0}deg ${(p.angle || 0) < 0 ? "+" : "-"}
-                            0.3deg
-                    )
-                )
-                translate(${p.x || 0}rem, ${p.y || 0}rem);
+            transform: ${rotate(p.angle, 0.3)} ${translate(p.x, p.y)};
         `}
     }
 `;
@@ -88,8 +96,11 @@ const Collapse = styled.div`
     height: 0;
 `;
 
-export const Card: React.StatelessComponent<Props> = (props) => {
-    const angle = 10 * (Math.random() - 0.5);
+export const Card: React.FunctionComponent<Props> = (props) => {
+    // Deterministic angle calculation using first two chars from content.
+    // Randomness would cause the angle to change on each render.
+    const content = (props.content || "").padEnd(2, " ");
+    const angle = ((content.charCodeAt(0) + content.charCodeAt(1)) % 11) - 5;
 
     if (props.type === "outline") {
         return (
