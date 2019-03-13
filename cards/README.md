@@ -104,3 +104,11 @@ All tests are written inside `tests` folder.
 Simply run `flask run` after having the database setup.
 
 ## Deploy with Docker
+Build the container:
+
+`>docker build --tag flask_app .`
+
+Deploy the container
+
+` > docker run -p 8000:8000 flask_app `
+
