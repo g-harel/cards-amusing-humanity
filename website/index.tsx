@@ -1,8 +1,7 @@
 import React, {Fragment} from "react";
 import ReactDOM from "react-dom";
-import styled, {createGlobalStyle} from "styled-components";
+import {createGlobalStyle} from "styled-components";
 
-import {Header} from "./components/header";
 import {Board} from "./components/board";
 
 const GlobalStyle = createGlobalStyle`
@@ -22,20 +21,10 @@ const GlobalStyle = createGlobalStyle`
     }
 `;
 
-const Layout = styled.main`
-    display: flex;
-    flex-wrap: wrap;
-    height: 100%;
-    width: 100%;
-`;
-
 const App: React.StatelessComponent = () => (
     <Fragment>
         <GlobalStyle />
-        <Layout>
-            <Header />
-            <Board />
-        </Layout>
+        <Board />
     </Fragment>
 );
 

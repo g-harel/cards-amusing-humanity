@@ -38,13 +38,14 @@ const Wrapper = styled.div`
 `;
 
 const Base = styled.div<BaseProps>`
-    border-radius: 0.7rem;
+    border-radius: 0.6rem;
+    font-size: 0.9rem;
     font-weight: 600;
-    height: 18rem;
-    padding: 1rem 1.5rem;
+    height: 16rem;
+    padding: 0.9rem 1.3rem;
     transition: transform 0.1s ease;
     user-select: none;
-    width: 13rem;
+    width: 12rem;
 
     /* TODO logo ::after */
 
