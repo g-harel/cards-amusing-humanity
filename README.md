@@ -1,4 +1,4 @@
-# Bobby Tables
+# Cards Amusing Humanity
 
 > Single-player "Cards Against Humanity" game.
 
@@ -28,6 +28,15 @@ Round starts and player sees a black card and a number of white cards. They pick
 
 - sign arbitrary payloads (ex. JSON string)
 - verify signatures
+
+## API
+
+Service APIs are described using the [OpenAPI Specification](https://github.com/OAI/OpenAPI-Specification).
+
+[Gateway](./gateway/openapi.yaml) | [Analytics](./analytics/openapi.yaml) | [Cards](./cards/openapi.yaml) | [Signing](./signing/openapi.yaml)
+--------------------------------- | ------------------------------------- | ----------------------------- | ---------------------------------
+
+_These documents can be visualized using the [Swagger Editor](https://editor.swagger.io)._
 
 ## Students
 

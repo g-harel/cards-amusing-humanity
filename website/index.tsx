@@ -3,6 +3,7 @@ import ReactDOM from "react-dom";
 import {createGlobalStyle} from "styled-components";
 
 import {Board} from "./components/board";
+import {Title} from "./components/title";
 
 const GlobalStyle = createGlobalStyle`
     html, body, #root {
@@ -24,6 +25,7 @@ const GlobalStyle = createGlobalStyle`
 const App: React.StatelessComponent = () => (
     <Fragment>
         <GlobalStyle />
+        <Title />
         <Board />
     </Fragment>
 );

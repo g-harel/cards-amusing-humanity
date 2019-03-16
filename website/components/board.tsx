@@ -6,7 +6,8 @@ import {Game} from "./game";
 const Wrapper = styled.div`
     display: flex;
     flex-flow: wrap;
-    padding: 3rem;
+    padding: 1rem 1rem 3rem;
+    height: 100%;
 `;
 
 export const Board: React.FunctionComponent = () => {

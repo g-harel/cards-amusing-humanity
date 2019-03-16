@@ -49,8 +49,8 @@ const Base = styled.div<BaseProps>`
 
     /* TODO logo ::after */
 
-    ${(p) => css`
-        transform: ${rotate(p.angle)} ${translate(p.x, p.y)};
+    ${({x, y , angle}) => css`
+        transform: ${rotate(angle)} ${translate(x, y)};
     `}
 `;
 
@@ -59,16 +59,15 @@ const Solid = styled(Base)<BaseProps>`
     cursor: pointer;
 
     &:hover {
-        ${(p) => css`
-            transform: scale(1.008) ${rotate(p.angle, 0.3)}
-                ${translate(p.x, p.y)};
+        ${({x, y, angle}) => css`
+            transform: scale(1.01) ${rotate(angle, 0.5)} ${translate(x, y)};
         `}
     }
 
     &:active {
         /* Remove hover state's scale transform. */
-        ${(p) => css`
-            transform: ${rotate(p.angle, 0.3)} ${translate(p.x, p.y)};
+        ${({x, y, angle}) => css`
+            transform: ${rotate(angle, 0.5)} ${translate(x, y)};
         `}
     }
 `;

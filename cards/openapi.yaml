@@ -3,8 +3,6 @@ info:
   version: 1.0.0
   title: Cards Service
   description: A card services in the game cards against humanity with OpenAPI 3.0 specification
-  contact:
-    url: https://github.com/g-harel/SOEN487/
 paths:
   /api/questions:
     get:
@@ -26,7 +24,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-   
+
   /api/question/{id}:
     get:
       description: Return a specific question.
@@ -72,7 +70,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-   
+
   /api/answers/{id}:
     get:
       description: Return a specific answer.
@@ -124,7 +122,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-                
+
   /api/brewer/questions:
     get:
       description: Return a number of question cards in random order.
@@ -150,7 +148,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-    
+
 components:
   schemas:
     Question:
@@ -177,7 +175,7 @@ components:
         text:
           type: string
         extension:
-          type: string   
+          type: string
 
     Error:
       required:

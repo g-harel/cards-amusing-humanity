@@ -3,14 +3,11 @@ info:
   version: 1.0.0
   title: Gateway Service
   description: A service acting as a gate to prevent attacks.
-  contact:
-    url: https://github.com/g-harel/SOEN487/
-    
 paths:
   /game:
     get:
       description: |
-        Returns a brand new game. 
+        Returns a brand new game.
       operationId: Start Game.
       responses:
         '200':
@@ -67,7 +64,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-                
+
   /app:
     get:
       description: Obtain link to static HTML front-end application.
@@ -97,7 +94,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-    
+
 components:
   schemas:
     Error:
