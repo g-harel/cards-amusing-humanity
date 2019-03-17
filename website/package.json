@@ -6,6 +6,7 @@
     "fmt": "prettier --list-different --write --ignore-path .gitignore \"**/*.{js,ts,tsx}\""
   },
   "dependencies": {
+    "jsonwebtoken": "^8.5.0",
     "react": "^16.8.4",
     "react-dom": "^16.8.4",
     "rickety": "^4.0.0",
@@ -13,6 +14,7 @@
     "typescript": "^3.3.3333"
   },
   "devDependencies": {
+    "@types/jsonwebtoken": "^8.3.2",
     "@types/react": "^16.8.7",
     "@types/react-dom": "^16.8.2",
     "@types/styled-components": "^4.1.12",

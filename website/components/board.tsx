@@ -1,7 +1,9 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import styled from "styled-components";
 
 import {Game} from "./game";
+import {CreateGame} from "../internal/endpoints";
+import {IGameToken, IGameResult} from "../internal/types";
 
 const Wrapper = styled.div`
     display: flex;
@@ -10,13 +12,21 @@ const Wrapper = styled.div`
     height: 100%;
 `;
 
+interface State {
+    game?: IGameToken;
+    result?: IGameResult;
+}
+
 export const Board: React.FunctionComponent = () => {
-    // TODO
-    const result = null;
+    const [state, setState] = useState<State>({});
+
+    useEffect(() => {
+        CreateGame.call({}).then((game) => setState({game}));
+    }, []);
 
     return (
         <Wrapper>
-            {!result && (
+            {state.game && (
                 <Game
                     black={{
                         id: "b1",

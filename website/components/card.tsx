@@ -49,7 +49,7 @@ const Base = styled.div<BaseProps>`
 
     /* TODO logo ::after */
 
-    ${({x, y , angle}) => css`
+    ${({x, y, angle}) => css`
         transform: ${rotate(angle)} ${translate(x, y)};
     `}
 `;
