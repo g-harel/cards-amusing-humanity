@@ -17,11 +17,11 @@ class DatabaseConfig:
         load_dotenv()
         db = {}
         try:
-            db['user'] = os.getenv('DB_USER')
-            db['pw'] = os.getenv('DB_PWD')
-            db['host'] = os.getenv('DB_HOST')
-            db['port'] = os.getenv('DB_PORT')
-            db['db'] = os.getenv('DB_NAME')
+            db['user'] = os.getenv('POSTGRES_USER')
+            db['pw'] = os.getenv('POSTGRES_PASSWORD')
+            db['host'] = os.getenv('POSTGRES_HOST')
+            db['port'] = os.getenv('POSTGRES_PORT')
+            db['db'] = os.getenv('POSTGRES_DB')
         except Exception as error:
             print("Can't grab database configuration file " )
             print(error)
@@ -31,4 +31,5 @@ class DatabaseConfig:
         """Read from configuration file database.ini"""
         db_config = self.grab_configuration()
         db_uri = 'postgresql://%(user)s:%(pw)s@%(host)s:%(port)s/%(db)s' % db_config
+        print(db_uri)
         return db_uri

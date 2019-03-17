@@ -1,0 +1,31 @@
+version: '3.5'
+
+services:
+
+  db:
+    image: postgres:10.6
+    env_file: .env
+    networks:
+      - backend
+    volumes:
+      - super_volume:/var/lib/postgresql
+  app:
+    container_name: cards
+    build:
+      context: .
+      dockerfile: Dockerfile
+    env_file: .env
+    networks:
+      - backend
+    ports:
+        - 8000:8000
+
+volumes:
+  super_volume:
+
+networks:
+  backend:
+    driver: overlay
+    ipam:
+      config:
+        - subnet: 192.168.18.0/24
