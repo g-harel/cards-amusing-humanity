@@ -1,9 +1,9 @@
 import React, {useState, useEffect} from "react";
 import styled from "styled-components";
 
-import {Game} from "./game";
-import {CreateGame} from "../internal/endpoints";
+import {CreateGame, SubmitGame} from "../internal/endpoints";
 import {IGameToken, IGameResult} from "../internal/types";
+import {Card} from "./card";
 
 const Wrapper = styled.div`
     display: flex;
@@ -12,35 +12,58 @@ const Wrapper = styled.div`
     height: 100%;
 `;
 
-interface State {
-    game?: IGameToken;
-    result?: IGameResult;
-}
+const Cards = styled.div`
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    justify-content: center;
+`;
+
+const CardRow = styled.div`
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+`;
 
 export const Board: React.FunctionComponent = () => {
-    const [state, setState] = useState<State>({});
+    const [game, setGame] = useState<IGameToken | null>(null);
+    const [result, setResult] = useState<IGameResult | null>(null);
 
     useEffect(() => {
-        CreateGame.call({}).then((game) => setState({game}));
+        CreateGame.call({}).then(setGame);
     }, []);
+
+    const submit = (id: string) => {
+        if (!game) return;
+        SubmitGame.call({
+            token: game,
+            choice: id,
+        }).then(setResult);
+    };
 
     return (
         <Wrapper>
-            {state.game && (
-                <Game
-                    black={{
-                        id: "b1",
-                        description: "What gets better with age?",
-                    }}
-                    white={[
-                        {id: "w1", description: "Daddy's credit card."},
-                        {id: "w2", description: "Drinking alone."},
-                        {id: "w3", description: "The glass ceiling."},
-                        {id: "w4", description: "A lifetime of sadness."},
-                        {id: "w5", description: "A PowerPoint presentation."},
-                    ]}
-                    onPick={console.log}
-                />
+            {result && <h1>{result.similarity}</h1>}
+            {game && (
+                <Cards>
+                    <CardRow>
+                        <Card
+                            type="black"
+                            content={game.question.description}
+                        />
+                        <Card type="outline" content="" />
+                    </CardRow>
+                    <CardRow>
+                        {game.answers.map((ans) => (
+                            <Card
+                                key={ans.id}
+                                type="white"
+                                content={ans.description}
+                                onClick={() => submit(ans.id)}
+                            />
+                        ))}
+                    </CardRow>
+                </Cards>
             )}
         </Wrapper>
     );
