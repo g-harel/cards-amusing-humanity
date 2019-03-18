@@ -2,69 +2,93 @@ import React, {useState, useEffect} from "react";
 import styled from "styled-components";
 
 import {CreateGame, SubmitGame} from "../internal/endpoints";
-import {IGameToken, IGameResult} from "../internal/types";
+import {IGameToken, IGameResult, ICard} from "../internal/types";
 import {Card} from "./card";
 
 const Wrapper = styled.div`
-    display: flex;
-    flex-flow: wrap;
-    padding: 1rem 1rem 3rem;
-    height: 100%;
-`;
-
-const Cards = styled.div`
+    align-items: center;
     display: flex;
     flex-direction: column;
-    flex-grow: 1;
+    min-height: 100%;
     justify-content: center;
+    padding: 1rem 1rem 3rem;
 `;
 
-const CardRow = styled.div`
+const Row = styled.div`
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+    transition: opacity 0.4s ease;
+`;
+
+const Collapse = styled.div`
+    height: 0;
 `;
 
 export const Board: React.FunctionComponent = () => {
     const [game, setGame] = useState<IGameToken | null>(null);
+    const [selection, setSelection] = useState<ICard | null>(null);
     const [result, setResult] = useState<IGameResult | null>(null);
 
-    useEffect(() => {
-        CreateGame.call({}).then(setGame);
-    }, []);
-
-    const submit = (id: string) => {
+    const submit = (card: ICard) => {
         if (!game) return;
+        setSelection(card);
         SubmitGame.call({
             token: game,
-            choice: id,
+            choice: card.id,
         }).then(setResult);
     };
 
+    const reset = () => {
+        setGame(null);
+        setSelection(null);
+        setResult(null);
+        CreateGame.call({}).then((game) => {
+            setGame(game);
+        });
+    };
+
+    // Load a game on initial render.
+    useEffect(reset, []);
+
+    if (!game) {
+        return <Wrapper>loading</Wrapper>;
+    }
+
+    let bottomRowContents: React.ReactNode = null;
+    if (result) {
+        bottomRowContents = <Row onClick={reset}>{result.similarity}</Row>;
+    } else if (selection) {
+        bottomRowContents = <Row>loading</Row>;
+    } else {
+        bottomRowContents = (
+            <Row>
+                {game.answers.map((card) => (
+                    <Card
+                        key={card.id}
+                        type="white"
+                        content={card.description}
+                        onClick={() => submit(card)}
+                    />
+                ))}
+            </Row>
+        );
+    }
+
     return (
         <Wrapper>
-            {result && <h1>{result.similarity}</h1>}
-            {game && (
-                <Cards>
-                    <CardRow>
-                        <Card
-                            type="black"
-                            content={game.question.description}
-                        />
+            <Row style={{pointerEvents: "none"}}>
+                <Card type="black" content={game.question.description} />
+                <div>
+                    <Collapse>
                         <Card type="outline" content="" />
-                    </CardRow>
-                    <CardRow>
-                        {game.answers.map((ans) => (
-                            <Card
-                                key={ans.id}
-                                type="white"
-                                content={ans.description}
-                                onClick={() => submit(ans.id)}
-                            />
-                        ))}
-                    </CardRow>
-                </Cards>
-            )}
+                    </Collapse>
+                    {selection && (
+                        <Card type="white" content={selection.description} />
+                    )}
+                </div>
+            </Row>
+            {bottomRowContents}
         </Wrapper>
     );
 };

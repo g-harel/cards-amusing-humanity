@@ -60,7 +60,8 @@ const Solid = styled(Base)<BaseProps>`
 
     &:hover {
         ${({x, y, angle}) => css`
-            transform: scale(1.01) ${rotate(angle, 0.5)} ${translate(x, y)};
+            transform: scale(1.01) ${rotate(angle, 0.5)}
+                ${translate(x, (y || 0) - 0.2)};
         `}
     }
 
@@ -84,12 +85,13 @@ const White = styled(Solid)`
 
 const Shadow = styled(Base)`
     background-color: #000;
-    opacity: 0.1;
+    opacity: 0.2;
 `;
 
 const Outline = styled(Base)`
     border: 0.1rem dashed #fff;
     opacity: 0.4;
+    transform: scale(1.02);
 `;
 
 const Collapse = styled.div`

@@ -33,7 +33,9 @@ export const SubmitGame = new Endpoint<IGameSubmit, IGameResult>({
     client: {
         send: async () => {
             await new Promise((r) => setTimeout(r, 400));
-            const res: IGameResult = {similarity: 42.314 * Math.random()};
+            const res: IGameResult = {
+                similarity: Math.round(42.314 * Math.random()),
+            };
             return {status: 200, body: JSON.stringify(res)};
         },
     },
