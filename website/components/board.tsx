@@ -4,6 +4,7 @@ import styled from "styled-components";
 import {CreateGame, SubmitGame} from "../internal/endpoints";
 import {IGameToken, IGameResult, ICard} from "../internal/types";
 import {Card} from "./card";
+import {Logo} from "./logo";
 
 const Wrapper = styled.div`
     align-items: center;
@@ -52,7 +53,11 @@ export const Board: React.FunctionComponent = () => {
     useEffect(reset, []);
 
     if (!game) {
-        return <Wrapper>loading</Wrapper>;
+        return (
+            <Wrapper>
+                <Logo loading scale={0.5} color="#444" />
+            </Wrapper>
+        );
     }
 
     let bottomRowContents: React.ReactNode = null;
