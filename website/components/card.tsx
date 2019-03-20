@@ -1,13 +1,13 @@
 import React from "react";
 import styled, {css} from "styled-components";
 
-export interface Props {
+export interface IProps {
     type: "black" | "white" | "outline";
     content: string;
     onClick?: () => any;
 }
 
-interface BaseProps {
+interface IBaseProps {
     angle?: number;
     x?: number;
     y?: number;
@@ -37,7 +37,7 @@ const Wrapper = styled.div`
     padding: 1.4rem;
 `;
 
-const Base = styled.div<BaseProps>`
+const Base = styled.div<IBaseProps>`
     border-radius: 0.6rem;
     font-size: 0.9rem;
     font-weight: 600;
@@ -55,7 +55,7 @@ const Base = styled.div<BaseProps>`
 `;
 
 // Parent of both "Black" and "White" together.
-const Solid = styled(Base)<BaseProps>`
+const Solid = styled(Base)<IBaseProps>`
     cursor: pointer;
 
     &:hover {
@@ -91,14 +91,14 @@ const Shadow = styled(Base)`
 const Outline = styled(Base)`
     border: 0.1rem dashed #fff;
     opacity: 0.4;
-    transform: scale(1.02);
+    transform: scale(1.02) rotate(0);
 `;
 
 const Collapse = styled.div`
     height: 0;
 `;
 
-export const Card: React.FunctionComponent<Props> = (props) => {
+export const Card: React.FunctionComponent<IProps> = (props) => {
     // Deterministic angle calculation using first two chars from content.
     // Randomness would cause the angle to change on each render.
     const content = (props.content || "").padEnd(2, " ");
