@@ -4,6 +4,7 @@ import styled from "styled-components";
 import {CreateGame, SubmitGame} from "../internal/endpoints";
 import {IGameToken, IGameResult, ICard} from "../internal/types";
 import {Card} from "./card";
+import {Counter} from "./counter";
 import {Logo} from "./logo";
 
 const Wrapper = styled.div`
@@ -18,8 +19,25 @@ const Wrapper = styled.div`
 const Row = styled.div`
     display: flex;
     flex-wrap: wrap;
+    height: 18.8rem;
     justify-content: center;
     transition: opacity 0.4s ease;
+`;
+
+const Result = styled.div`
+    align-content: center;
+    align-items: center;
+    font-size: 2rem;
+    font-weight: 600;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+`;
+
+const Subtitle = styled.div`
+    font-size: 1.2rem;
+    text-align: center;
+    width: 100%;
 `;
 
 const Collapse = styled.div`
@@ -62,9 +80,24 @@ export const Board: React.FunctionComponent = () => {
 
     let bottomRowContents: React.ReactNode = null;
     if (result) {
-        bottomRowContents = <Row onClick={reset}>{result.similarity}</Row>;
+        bottomRowContents = (
+            <Row onClick={reset}>
+                <Result>
+                    <Counter target={result.similarity} />%
+                    <Subtitle>
+                        agree
+                    </Subtitle>
+                </Result>
+            </Row>
+        );
     } else if (selection) {
-        bottomRowContents = <Row>loading</Row>;
+        bottomRowContents = (
+            <Row>
+                <Result>
+                    <Logo loading scale={0.5} color="#444" />
+                </Result>
+            </Row>
+        );
     } else {
         bottomRowContents = (
             <Row>

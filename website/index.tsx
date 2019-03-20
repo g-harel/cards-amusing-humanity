@@ -4,7 +4,6 @@ import {createGlobalStyle} from "styled-components";
 
 import {Board} from "./components/board";
 import {Title} from "./components/title";
-import {Counter} from "./components/counter";
 
 const GlobalStyle = createGlobalStyle`
     html, body, #root {
@@ -26,11 +25,6 @@ const GlobalStyle = createGlobalStyle`
 const App: React.StatelessComponent = () => (
     <Fragment>
         <GlobalStyle />
-        <Counter
-            result={async () =>
-                new Promise<number>((r) => setTimeout(r.bind(null, 25), 500))
-            }
-        />
         <Title />
         <Board />
     </Fragment>
