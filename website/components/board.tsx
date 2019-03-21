@@ -21,23 +21,37 @@ const Row = styled.div`
     flex-wrap: wrap;
     height: 18.8rem;
     justify-content: center;
-    transition: opacity 0.4s ease;
 `;
 
 const Result = styled.div`
     align-content: center;
     align-items: center;
-    font-size: 2rem;
-    font-weight: 600;
     display: flex;
     flex-wrap: wrap;
+    font-size: 3rem;
+    font-weight: 600;
     justify-content: center;
+    user-select: none;
 `;
 
 const Subtitle = styled.div`
-    font-size: 1.2rem;
+    color: #444;
+    font-size: 1.6rem;
+    height: 4rem;
     text-align: center;
     width: 100%;
+`;
+
+const Again = styled.div`
+    border-radius: 0.2rem;
+    border: 1px solid currentColor;
+    color: #444;
+    cursor: pointer;
+    font-size: 1rem;
+    opacity: 0;
+    padding: 1rem 2rem;
+    text-transform: uppercase;
+    transition: opacity 0.4s ease;
 `;
 
 const Collapse = styled.div`
@@ -48,6 +62,7 @@ export const Board: React.FunctionComponent = () => {
     const [game, setGame] = useState<IGameToken | null>(null);
     const [selection, setSelection] = useState<ICard | null>(null);
     const [result, setResult] = useState<IGameResult | null>(null);
+    const [counting, setCounting] = useState<boolean>(false);
 
     const submit = (card: ICard) => {
         if (!game) return;
@@ -55,7 +70,9 @@ export const Board: React.FunctionComponent = () => {
         SubmitGame.call({
             token: game,
             choice: card.id,
-        }).then(setResult);
+        })
+            .then(setResult)
+            .then(() => setCounting(true));
     };
 
     const reset = () => {
@@ -81,12 +98,16 @@ export const Board: React.FunctionComponent = () => {
     let bottomRowContents: React.ReactNode = null;
     if (result) {
         bottomRowContents = (
-            <Row onClick={reset}>
+            <Row>
                 <Result>
-                    <Counter target={result.similarity} />%
-                    <Subtitle>
-                        agree
-                    </Subtitle>
+                    <Counter
+                        target={result.similarity}
+                        callback={() => setCounting(false)}
+                    />
+                    %<Subtitle>agree</Subtitle>
+                    <Again onClick={reset} style={{opacity: counting ? 0 : 1}}>
+                        again
+                    </Again>
                 </Result>
             </Row>
         );
