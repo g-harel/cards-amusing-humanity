@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: signing
+spec:
+  containers:
+  - name: signing
+    image: cah-signing
+    ports:
+    - containerPort: 80

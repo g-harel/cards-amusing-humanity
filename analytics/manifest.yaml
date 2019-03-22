@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: analytics
+spec:
+  containers:
+  - name: analytics
+    image: cah-analytics
+    ports:
+    - containerPort: 80
