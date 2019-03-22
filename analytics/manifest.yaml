@@ -7,4 +7,4 @@ spec:
   - name: analytics
     image: cah-analytics
     ports:
-    - containerPort: 80
+    - containerPort: 5000

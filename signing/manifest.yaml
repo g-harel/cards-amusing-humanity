@@ -7,4 +7,4 @@ spec:
   - name: signing
     image: cah-signing
     ports:
-    - containerPort: 80
+    - containerPort: 5000

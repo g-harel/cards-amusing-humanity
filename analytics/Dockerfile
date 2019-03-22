@@ -1,9 +1,5 @@
-FROM golang:1.12
+FROM kennethreitz/pipenv
 
-WORKDIR /go/src/app
-COPY . .
+COPY . /app
 
-RUN go get -d -v ./...
-RUN go install -v ./...
-
-CMD ["app"]
+CMD python3 main.py
