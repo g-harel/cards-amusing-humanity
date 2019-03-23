@@ -18,10 +18,23 @@ components:
       properties:
         token:
           type: string
+    Payload:
+      type: object
+      required:
+      - payload
+      properties:
+        payload:
+          type: object
 paths:
   /sign:
     post:
       description: Produce a JWT with the request body.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Payload"
       responses:
         "200":
           description: Successful handling.
@@ -29,6 +42,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Token"
+        "400":
+          description: Malformed request.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "500":
           description: Internal Error.
           content:
