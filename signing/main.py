@@ -1,11 +1,11 @@
 from datetime import datetime, timedelta
+import os
 
 from flask import Flask, request, jsonify, make_response
 import jwt
 
-# TODO from env
-key = "abcde"
-exp = timedelta(hours=1)
+key = os.getenv("SECRET_KEY")
+exp = int(float(os.getenv("TOKEN_TTL_HOURS")))
 
 app = Flask(__name__)
 

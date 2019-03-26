@@ -10,4 +10,5 @@ build:
 deploy:
   kubectl:
     manifests:
+      - "config.yaml"
       - "*/manifest.yaml"

@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: config
+data:
+  secret-key: cards-amusing-humanity
+  token-ttl-hours: "1"

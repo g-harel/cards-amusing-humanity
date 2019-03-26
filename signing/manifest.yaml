@@ -8,3 +8,14 @@ spec:
     image: cah-signing
     ports:
     - containerPort: 5000
+    env:
+    - name: SECRET_KEY
+      valueFrom:
+        configMapKeyRef:
+          name: config
+          key: secret-key
+    - name: TOKEN_TTL_HOURS
+      valueFrom:
+        configMapKeyRef:
+          name: config
+          key: token-ttl-hours
