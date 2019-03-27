@@ -1,21 +1,45 @@
 apiVersion: v1
-kind: Pod
+kind: Service
 metadata:
   name: signing
 spec:
-  containers:
-  - name: signing
-    image: cah-signing
-    ports:
-    - containerPort: 5000
-    env:
-    - name: SECRET_KEY
-      valueFrom:
-        configMapKeyRef:
-          name: config
-          key: secret-key
-    - name: TOKEN_TTL_HOURS
-      valueFrom:
-        configMapKeyRef:
-          name: config
-          key: token-ttl-hours
+  type: ClusterIP
+  selector:
+    app: signing
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 5000
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: signing
+spec:
+  selector:
+    matchLabels:
+      app: signing
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: signing
+    spec:
+      containers:
+      - name: signing
+        image: cah-signing
+        ports:
+        - containerPort: 5000
+        env:
+        - name: SECRET_KEY
+          valueFrom:
+            configMapKeyRef:
+              name: config
+              key: secret-key
+        - name: TOKEN_TTL_HOURS
+          valueFrom:
+            configMapKeyRef:
+              name: config
+              key: token-ttl-hours
