@@ -5,8 +5,12 @@ build:
   artifacts:
   - image: cah-analytics
     context: analytics
+    sync:
+      "*.py": .
   - image: cah-signing
     context: signing
+    sync:
+      "*.py": .
 deploy:
   kubectl:
     manifests:

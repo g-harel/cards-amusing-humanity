@@ -8,3 +8,6 @@ spec:
     image: cah-analytics
     ports:
     - containerPort: 5000
+    env:
+    - name: FLASK_DEBUG
+      value: "1"

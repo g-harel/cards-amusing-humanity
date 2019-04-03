@@ -19,6 +19,11 @@ def exception():
     return error_response(500, "Internal error")
 
 
+@app.route("/")
+def hello():
+    return "signing service"
+
+
 @app.route("/sign", methods=["POST"])
 def sign():
     body = request.get_json()
