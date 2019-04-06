@@ -16,8 +16,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: analytics
-  labels:
-    app: analytics
 spec:
   replicas: 1
   selector:
@@ -31,8 +29,6 @@ spec:
       containers:
       - name: analytics
         image: cah-analytics
-        ports:
-        - containerPort: 5000
         env:
         - name: FLASK_DEBUG
           value: "1"

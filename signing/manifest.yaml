@@ -17,10 +17,10 @@ kind: Deployment
 metadata:
   name: signing
 spec:
+  replicas: 1
   selector:
     matchLabels:
       app: signing
-  replicas: 1
   template:
     metadata:
       labels:
@@ -29,8 +29,6 @@ spec:
       containers:
       - name: signing
         image: cah-signing
-        ports:
-        - containerPort: 5000
         env:
         - name: FLASK_DEBUG
           value: "1"
