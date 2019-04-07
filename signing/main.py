@@ -5,7 +5,7 @@ from flask import Flask, request, jsonify, make_response
 import jwt
 
 key = os.getenv("SECRET_KEY")
-exp = int(float(os.getenv("TOKEN_TTL_HOURS")))
+exp = 60 * 60 * int(float(os.getenv("TOKEN_TTL_HOURS")))
 
 app = Flask(__name__)
 
@@ -34,7 +34,7 @@ def sign():
     if (not payload) or (not type(payload) is dict):
         return error_response(400, "Malformed payload")
 
-    payload["exp"] = int(datetime.timestamp(datetime.now() + exp))
+    payload["exp"] = datetime.timestamp(datetime.now()) + exp
     token = jwt.encode(payload, key, algorithm="HS256")
     return jsonify({"token": token.decode("utf-8")})
 
@@ -47,10 +47,10 @@ def verify():
 
     token = body.get("token")
     if (not token) or (not type(token) is str):
-        return error_response(400, "Malformed token")
+        return error_response(400, "Malformed body, missing 'token")
 
     try:
-        jwt.decode(token, key, algorithms=['HS256'])
+        jwt.decode(token, key, algorithms=["HS256"])
         return "Valid token"
     except:
         return error_response(401, "Expired or malformed token")
