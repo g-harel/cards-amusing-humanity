@@ -32,3 +32,72 @@ spec:
         env:
         - name: FLASK_DEBUG
           value: "1"
+        - name: TOKEN_TTL_HOURS
+          valueFrom:
+            configMapKeyRef:
+              name: signing
+              key: token-ttl-hours
+        - name: POSTGRES_DB
+          valueFrom:
+            configMapKeyRef:
+              name: analytics
+              key: database-name
+        - name: POSTGRES_USER
+          valueFrom:
+            configMapKeyRef:
+              name: analytics
+              key: database-user
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            configMapKeyRef:
+              name: analytics
+              key: database-password
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: analytics-database
+spec:
+  selector:
+    app: analytics-database
+  ports:
+  - protocol: TCP
+    port: 5432
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: analytics-database
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: analytics-database
+  template:
+    metadata:
+      labels:
+        app: analytics-database
+    spec:
+      containers:
+      - name: analytics-database
+        image: postgres:11
+        env:
+        - name: POSTGRES_DB
+          valueFrom:
+            configMapKeyRef:
+              name: analytics
+              key: database-name
+        - name: POSTGRES_USER
+          valueFrom:
+            configMapKeyRef:
+              name: analytics
+              key: database-user
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            configMapKeyRef:
+              name: analytics
+              key: database-password

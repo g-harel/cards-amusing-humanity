@@ -35,10 +35,10 @@ spec:
         - name: SECRET_KEY
           valueFrom:
             configMapKeyRef:
-              name: config
+              name: signing
               key: secret-key
         - name: TOKEN_TTL_HOURS
           valueFrom:
             configMapKeyRef:
-              name: config
+              name: signing
               key: token-ttl-hours
