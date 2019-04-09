@@ -13,6 +13,6 @@ kind: ConfigMap
 metadata:
   name: analytics
 data:
-  database-name: analytics
-  database-user: postgresadmin
-  database-password: admin123
+  postgres-name: analytics
+  postgres-user: postgresadmin
+  postgres-password: admin123

@@ -1,8 +1,12 @@
+import os
+
 from flask import request, jsonify, make_response
 import jwt
 import requests
 
-from app import app, db
+from app import app, db, kv
+
+exp = 60 * int(float(os.getenv("TOKEN_TTL_HOURS")))
 
 
 def error_response(code, msg):
@@ -39,12 +43,13 @@ def submit():
     elif (res.status_code == 401):
         return error_response(401, "Expired or malformed token")
 
-    try:
-        token = jwt.decode(token, verify=False, algorithms=["HS256"])
-    except:
-        return error_response(401, "Malformed token")
+    if kv.get(token):
+        return error_response(403, "Duplicate submission")
 
-    return jsonify(token)
+    kv.setex(token, exp + 60, token)
+
+    payload = jwt.decode(token, verify=False, algorithms=["HS256"])
+    return jsonify(payload)
 
 
 if __name__ == "__main__":

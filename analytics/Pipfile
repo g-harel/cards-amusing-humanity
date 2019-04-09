@@ -11,6 +11,7 @@ flask-sqlalchemy = "*"
 psycopg2 = "*"
 pyjwt = "*"
 requests = "*"
+redis = "*"
 
 [requires]
 python_version = "3.6"

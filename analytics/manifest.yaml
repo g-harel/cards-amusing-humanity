@@ -41,27 +41,27 @@ spec:
           valueFrom:
             configMapKeyRef:
               name: analytics
-              key: database-name
+              key: postgres-name
         - name: POSTGRES_USER
           valueFrom:
             configMapKeyRef:
               name: analytics
-              key: database-user
+              key: postgres-user
         - name: POSTGRES_PASSWORD
           valueFrom:
             configMapKeyRef:
               name: analytics
-              key: database-password
+              key: postgres-password
 
 ---
 
 apiVersion: v1
 kind: Service
 metadata:
-  name: analytics-database
+  name: analytics-postgres
 spec:
   selector:
-    app: analytics-database
+    app: analytics-postgres
   ports:
   - protocol: TCP
     port: 5432
@@ -71,33 +71,66 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: analytics-database
+  name: analytics-postgres
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: analytics-database
+      app: analytics-postgres
   template:
     metadata:
       labels:
-        app: analytics-database
+        app: analytics-postgres
     spec:
       containers:
-      - name: analytics-database
+      - name: analytics-postgres
         image: postgres:11
         env:
         - name: POSTGRES_DB
           valueFrom:
             configMapKeyRef:
               name: analytics
-              key: database-name
+              key: postgres-name
         - name: POSTGRES_USER
           valueFrom:
             configMapKeyRef:
               name: analytics
-              key: database-user
+              key: postgres-user
         - name: POSTGRES_PASSWORD
           valueFrom:
             configMapKeyRef:
               name: analytics
-              key: database-password
+              key: postgres-password
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: analytics-redis
+spec:
+  selector:
+    app: analytics-redis
+  ports:
+  - protocol: TCP
+    port: 6379
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: analytics-redis
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: analytics-redis
+  template:
+    metadata:
+      labels:
+        app: analytics-redis
+    spec:
+      containers:
+      - name: analytics-redis
+        image: redis:5
