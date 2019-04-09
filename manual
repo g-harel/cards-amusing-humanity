@@ -1,0 +1,35 @@
+#!/bin/bash
+
+SIGNING="4000"
+ANALYTICS="4001"
+
+# Expose services on the host machine (in background jobs).
+kubectl port-forward service/signing $SIGNING:80 &
+kubectl port-forward service/analytics $ANALYTICS:80 &
+
+# Wait for port forwarding to start.
+sleep 0.5
+
+# Sign a payload using the signing service.
+PAYLOAD=$(cat <<EOF
+    {
+        "payload": {
+            "a": true
+        }
+    }
+EOF
+)
+TOKEN=$(curl -s -X "POST" -H "Content-Type: application/json" -d "$PAYLOAD" localhost:$SIGNING/sign | jq -r .token)
+
+# Submit the token and a choice to the analytics service.
+PAYLOAD=$(cat <<EOF
+    {
+        "token": "$TOKEN",
+        "choice": "test"
+    }
+EOF
+)
+curl -s -X "POST" -H "Content-Type: application/json" -d "$PAYLOAD" localhost:$ANALYTICS/submit
+
+# Cleanup background jobs before exiting.
+kill $(jobs -p)
