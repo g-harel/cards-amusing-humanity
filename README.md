@@ -8,7 +8,7 @@ Round starts and player sees a black card and a number of white cards. They pick
 
 Each service's directory contains a `Dockerfile` which describes how the source code is packaged. Each directory also contains a kubernetes manifest (`manifest.yaml`) to configure how the image is deployed and what external services it needs (ex. database).
 
-Running the entire application requires a kube config pointing to an existing cluster. [Minikube](https://github.com/kubernetes/minikube) is a good option for running a single node cluster locally. The application can then be deployed using [Skaffold](https://github.com/GoogleContainerTools/skaffold) (`skaffold dev`). This will build the required images and apply each service's manifest as described [here](./skaffold.yaml).
+Running the entire application requires a kube config pointing to an existing cluster. [Minikube](https://github.com/kubernetes/minikube) is a good option for running a single node cluster locally. The application can then be deployed using [Skaffold](https://github.com/GoogleContainerTools/skaffold) (`skaffold dev`). This will build the required images and apply each service's manifest as described [here](./skaffold.yaml). When using minikube, you can use `minikube service website` to open the website in your default browser.
 
 ## Services
 

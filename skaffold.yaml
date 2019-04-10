@@ -11,6 +11,8 @@ build:
     context: signing
     sync:
       "*.py": .
+  - image: cah-website
+    context: website
 deploy:
   kubectl:
     manifests:
