@@ -6,7 +6,7 @@ import requests
 
 from app import app, db, kv
 
-# Token expiry in seconds.
+# Token expiry in minutes.
 # Value is used to clear the token blacklist.
 exp = 60 * int(float(os.getenv("TOKEN_TTL_HOURS")))
 
@@ -61,7 +61,10 @@ def submit():
     # Temporarily add game to blacklist until it expires (with a safety buffer).
     kv.setex(token, exp + 60, token)
 
+    # Decode the token's data without validating it.
+    # Token is assumed to be valid since it was verified by the signing service.
     payload = jwt.decode(token, verify=False, algorithms=["HS256"])
+
     return jsonify(payload)
 
 

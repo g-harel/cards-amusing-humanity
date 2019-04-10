@@ -1,3 +1,4 @@
+# Service to expose signing deployment.
 apiVersion: v1
 kind: Service
 metadata:
@@ -12,6 +13,7 @@ spec:
 
 ---
 
+# Singing service deployment.
 apiVersion: apps/v1
 kind: Deployment
 metadata:

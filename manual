@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# Helper scripts to manually invoke running services.
+
 SIGNING="4000"
 ANALYTICS="4001"
 
@@ -7,7 +9,7 @@ ANALYTICS="4001"
 kubectl port-forward service/signing $SIGNING:80 &
 kubectl port-forward service/analytics $ANALYTICS:80 &
 
-# Wait for port forwarding to start.
+# Wait for port forwarding to finish setting up.
 sleep 0.5
 
 # Sign a payload using the signing service.
