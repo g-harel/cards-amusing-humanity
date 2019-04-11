@@ -11,6 +11,10 @@ build:
     context: signing
     sync:
       "*.py": .
+  - image: cah-cards
+    context: cards
+    sync:
+      "*.py": .
 deploy:
   kubectl:
     manifests:

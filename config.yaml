@@ -21,3 +21,13 @@ data:
   postgres-name: analytics
   postgres-user: postgresadmin
   postgres-password: admin123
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cards
+data:
+  postgres-name: cards
+  postgres-user: postgresadmin
+  postgres-password: admin123
