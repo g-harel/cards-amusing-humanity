@@ -2,4 +2,4 @@ FROM kennethreitz/pipenv
 
 COPY . /app
 
-CMD python3 main.py
+CMD python3 app.py
