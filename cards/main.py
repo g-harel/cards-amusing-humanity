@@ -4,7 +4,7 @@ from flask import request, jsonify, make_response
 import jwt
 import requests
 
-from app import app, db, kv
+from app import app, db
 
 # Token expiry in minutes.
 # Value is used to clear the token blacklist.

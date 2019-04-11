@@ -22,6 +22,3 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 # Create a database "client".
 db = SQLAlchemy(app)
-
-# Create a redis client.
-kv = redis.Redis(host="cards-redis", port=6379, db=0)
