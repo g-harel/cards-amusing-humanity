@@ -1,6 +1,6 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-from views import answers, questions, general
+from views import answers, questions, general, brewer
 from settings import DatabaseConfig
 from database import db
 
@@ -14,7 +14,7 @@ def create_app():
     
     app = Flask(__name__)
     conf = DatabaseConfig()
-    app.config['DEBUG'] = True
+    app.config['DEBUG'] = False
     # Configure app before handing over the instance to SQLAlchemy.
     app.config["SQLALCHEMY_DATABASE_URI"] = conf.get_db_uri()
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -22,6 +22,7 @@ def create_app():
     app.register_blueprint(answers.ans)
     app.register_blueprint(questions.questions)
     app.register_blueprint(general.main)
+    app.register_blueprint(brewer.brew)
     return app
 
 
