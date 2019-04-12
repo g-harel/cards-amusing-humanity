@@ -7,12 +7,12 @@ build:
     context: analytics
     sync:
       "*.py": .
-  - image: cah-signing
-    context: signing
-    sync:
-      "*.py": .
   - image: cah-cards
     context: cards
+    sync:
+      "*.py": .
+  - image: cah-signing
+    context: signing
     sync:
       "*.py": .
   - image: cah-website

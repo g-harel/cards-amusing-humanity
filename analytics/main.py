@@ -5,6 +5,7 @@ import jwt
 import requests
 
 from app import app, db, kv
+from models import Record
 
 # Token expiry in minutes.
 # Value is used to clear the token blacklist.
@@ -58,12 +59,22 @@ def submit():
     if kv.get(token):
         return error_response(403, "Duplicate submission")
 
-    # Temporarily add game to blacklist until it expires (with a safety buffer).
-    kv.setex(token, exp + 60, token)
-
     # Decode the token's data without validating it.
     # Token is assumed to be valid since it was verified by the signing service.
     payload = jwt.decode(token, verify=False, algorithms=["HS256"])
+
+    # Create database Records to store game result.
+    rows = []
+    for answer in payload["answers"]:
+        if answer["id"] != choice:
+            rows.append(Record( question=payload["question"], selected_answer=choice, other_answer=answer["id"]))
+
+    # Bulk insert new rows into the database.
+    db.session.bulk_save_objects(rows)
+    db.session.commit()
+
+    # Temporarily add game to blacklist until it expires (with a safety buffer).
+    kv.setex(token, exp + 60, token)
 
     return jsonify(payload)
 

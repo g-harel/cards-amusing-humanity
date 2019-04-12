@@ -16,7 +16,12 @@ sleep 0.5
 PAYLOAD=$(cat <<EOF
     {
         "payload": {
-            "a": true
+            "question": "q123",
+            "answers": [
+                {"id": "a123"},
+                {"id": "a456"},
+                {"id": "a789"}
+            ]
         }
     }
 EOF
@@ -27,7 +32,7 @@ TOKEN=$(curl -s -X "POST" -H "Content-Type: application/json" -d "$PAYLOAD" loca
 PAYLOAD=$(cat <<EOF
     {
         "token": "$TOKEN",
-        "choice": "test"
+        "choice": "a000"
     }
 EOF
 )

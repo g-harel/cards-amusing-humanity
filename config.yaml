@@ -23,6 +23,7 @@ data:
   postgres-password: admin123
 
 ---
+
 apiVersion: v1
 kind: ConfigMap
 metadata:

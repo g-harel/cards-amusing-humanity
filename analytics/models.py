@@ -7,6 +7,9 @@ from app import db
 class Record(db.Model):
     __tablename__ = "records"
 
+    # Primary key is never used, but is required for SQLAlchemy's mapper.
+    id = db.Column(db.Integer, primary_key=True)
+
     question = db.Column(db.String(), nullable=False)
     selected_answer = db.Column(db.String(), nullable=False)
     other_answer = db.Column(db.String(), nullable=False)
