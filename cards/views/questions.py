@@ -8,9 +8,13 @@ questions = Blueprint('questions', __name__, url_prefix='/api')
 
 @questions.route('/questions', methods=['GET'])
 def get_all_questions():
-    question_list = Question.query.all()
-    db.session.close()
-    return jsonify([row2dict(q) for q in question_list])
+    try:
+        question_list = Question.query.all()
+        db.session.close()
+        return jsonify([row2dict(q) for q in question_list])
+    except:
+        print("Problem while getting all questions")
+        return make_response(jsonify({"code": 404, "msg": "Can't process request"}), 404)
 
 
 @questions.route('/questions/<question_id>', methods=['GET'])
@@ -22,11 +26,12 @@ def get_question(question_id):
         question = Question.query.filter_by(id=question_id).first()
         if question is None:
             return make_response(jsonify({"code": 404, "msg": "Doesn't exists"}), 404)
-    except Exception as error:
-        print("Problem while getting an question")
-        print(error)
-        db.session.rollback()
-        return make_response(jsonify({"code": 404, "msg": error}), 404)
-    finally:
+
         db.session.close()
         return jsonify([row2dict(question)])
+    except:
+        print("Problem while getting an question")
+        return make_response(jsonify({"code": 404, "msg": "Can't process request"}), 404)
+    finally:
+        db.session.close()
+

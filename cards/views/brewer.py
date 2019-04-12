@@ -36,6 +36,9 @@ def get_random_answer(number_of_item):
         print(error)
         return make_response(jsonify({"code": 404, "msg": error}), 404)
 
+    finally:
+        db.session.close()
+
 
 @brew.route('/questions/<number_of_item>', methods=['GET'])
 def get_random_question(number_of_item):
@@ -56,14 +59,13 @@ def get_random_question(number_of_item):
                 random_questions.append(row)
                 counter = counter + 1
 
-        db.session.commit()
+        db.session.close()
         return jsonify([row2dict(question) for question in random_questions])
     except ValueError:
         return make_response(jsonify({"code": 404, "msg": "Not Found"}), 404)
     except Exception as error:
         print("Problem while getting random questions")
         print(error)
-        db.session.rollback()
         return make_response(jsonify({"code": 404, "msg": error}), 404)
 
     finally:
