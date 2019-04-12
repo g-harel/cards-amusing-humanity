@@ -1,6 +1,6 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-from views import answers
+from views import answers, questions, general
 from settings import DatabaseConfig
 from database import db
 
@@ -20,6 +20,8 @@ def create_app():
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     db.init_app(app)
     app.register_blueprint(answers.ans)
+    app.register_blueprint(questions.questions)
+    app.register_blueprint(general.main)
     return app
 
 

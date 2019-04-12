@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Text, String
 from sqlalchemy.dialects.postgresql import UUID
-from ..init_db import Base
+from init_db import Base
 
 def row2dict(row):
     """Convert SQL row to text"""
