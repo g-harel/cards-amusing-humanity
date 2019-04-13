@@ -29,7 +29,7 @@ components:
         similarity:
           type: number
           minimum: 0
-          maximum: 100
+          maximum: 1
 paths:
   /submit:
     post:

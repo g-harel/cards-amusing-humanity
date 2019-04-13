@@ -63,11 +63,25 @@ def submit():
     # Token is assumed to be valid since it was verified by the signing service.
     payload = jwt.decode(token, verify=False, algorithms=["HS256"])
 
+    # Verify that token contains question data of the correct type.
+    question = payload.get("question")
+    if (not question) or (not type(question) is str):
+        return error_response(400, "Malformed token payload, missing 'question'")
+
+    # Verify that token contains answers data of the correct type.
+    answers = payload.get("answers")
+    if (not answers) or (not type(answers) is list):
+        return error_response(400, "Malformed token payload, missing 'answers'")
+    for answer in answers:
+        id = answer.get("id")
+        if (not id) or (not type(id) is str):
+            return error_response(400, "Malformed token payload, missing answer 'id'")
+
     # Create database Records to store game result.
     rows = []
-    for answer in payload["answers"]:
+    for answer in answers:
         if answer["id"] != choice:
-            rows.append(Record( question=payload["question"], selected_answer=choice, other_answer=answer["id"]))
+            rows.append(Record( question=question, selected_answer=choice, other_answer=answer["id"]))
 
     # Bulk insert new rows into the database.
     db.session.bulk_save_objects(rows)
@@ -78,15 +92,15 @@ def submit():
 
     # Count records that agree with the choice.
     count_agree = Record.query \
-        .filter_by(question=payload["question"]) \
+        .filter_by(question=question) \
         .filter_by(selected_answer=choice) \
-        .filter(Record.other_answer.in_(answer["id"] for answer in payload["answers"])) \
+        .filter(Record.other_answer.in_(answer["id"] for answer in answers)) \
         .count()
 
     # Count records that disagree with the choice.
     count_disagree = Record.query \
-        .filter_by(question=payload["question"]) \
-        .filter(Record.selected_answer.in_(answer["id"] for answer in payload["answers"])) \
+        .filter_by(question=question) \
+        .filter(Record.selected_answer.in_(answer["id"] for answer in answers)) \
         .filter_by(other_answer=choice) \
         .count()
 
