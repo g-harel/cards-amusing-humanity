@@ -76,7 +76,24 @@ def submit():
     # Temporarily add game to blacklist until it expires (with a safety buffer).
     kv.setex(token, exp + 60, token)
 
-    return jsonify(payload)
+    # Count records that agree with the choice.
+    count_agree = Record.query \
+        .filter_by(question=payload["question"]) \
+        .filter_by(selected_answer=choice) \
+        .filter(Record.other_answer.in_(answer["id"] for answer in payload["answers"])) \
+        .count()
+
+    # Count records that disagree with the choice.
+    count_disagree = Record.query \
+        .filter_by(question=payload["question"]) \
+        .filter(Record.selected_answer.in_(answer["id"] for answer in payload["answers"])) \
+        .filter_by(other_answer=choice) \
+        .count()
+
+    # Respond with similarity.
+    return jsonify({
+        "similarity": count_agree / (count_agree + count_disagree)
+    })
 
 
 if __name__ == "__main__":
