@@ -11,12 +11,7 @@ paths:
       operationId: Get a new game.
       parameters:
         - in: query
-          name: token
-          schema:
-            type: string
-          description: The token provided with the game
-        - in: query
-          name: deck
+          name: extension
           schema:
             type: string
           description: Optional parameter specify a type of deck (e.g. NSFW)
@@ -27,14 +22,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Game"
-        "401":
-          description: Expired or malformed token.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
-        "500":
-          description: Internal Error.
+        "404":
+          description: Can't find resources
           content:
             application/json:
               schema:
@@ -46,32 +35,10 @@ components:
           
     Game:
       required:
-        - question
-        - answers
+        - token
       properties:
         token:
           type: string
-        question:
-          type: object
-          properties:
-            id:
-              type: string
-            text:
-              type: string
-            extension:
-              type: string
-            
-        answers:
-          type: array
-          items:
-            type: object
-            properties:
-              id:
-                type: string
-              text:
-                type: string
-              extension:
-                type: string
 
     Error:
       required:

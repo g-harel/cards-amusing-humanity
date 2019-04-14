@@ -39,6 +39,11 @@ spec:
             configMapKeyRef:
               name: signing
               key: token-ttl-hours
+        - name: DEFAULT_NUM_ANSWERS
+          valueFrom:
+            configMapKeyRef:
+              name: cards
+              key: default_num_answers
         - name: POSTGRES_DB
           valueFrom:
             configMapKeyRef:

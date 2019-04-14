@@ -32,3 +32,4 @@ data:
   postgres-name: cards
   postgres-user: postgresadmin
   postgres-password: admin123
+  default_num_answers: '5'

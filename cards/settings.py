@@ -1,22 +1,22 @@
 import os
 
 # # Postgres config used to connect to cards database.
-# POSTGRES = {
-#     "db": os.environ["POSTGRES_DB"],
-#     "user": os.environ["POSTGRES_USER"],
-#     "pass": os.environ["POSTGRES_PASSWORD"],
-#     "host": "cards-postgres",
-#     "port": "5432",
-# }
-
-# Postgres config used to connect to cards database for local dev
 POSTGRES = {
-    "db": '',
-    "user": 'postgres',
-    "pass": '',
-    "host": "localhost",
+    "db": os.environ["POSTGRES_DB"],
+    "user": os.environ["POSTGRES_USER"],
+    "pass": os.environ["POSTGRES_PASSWORD"],
+    "host": "cards-postgres",
     "port": "5432",
 }
+
+# Postgres config used to connect to cards database for local dev
+# POSTGRES = {
+#     "db": '',
+#     "user": 'postgres',
+#     "pass": '',
+#     "host": "localhost",
+#     "port": "5432",
+# }
 
 class DatabaseConfig:
     """ Configuration of Database"""

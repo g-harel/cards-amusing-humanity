@@ -1,8 +1,9 @@
 import os
+import requests
+import json
+import ast
 from flask import Blueprint, jsonify, make_response, request
 from views.brewer import get_random_answer, get_random_question
-from models.answers import row2dict
-from models.questions import row2dict
 
 
 game = Blueprint('game', __name__, url_prefix='')
@@ -10,19 +11,27 @@ game = Blueprint('game', __name__, url_prefix='')
 @game.route('/game', methods=['GET'])
 def get_new_game():
     """ Create and return a game object for user """
-    deck = request.args.get('deck', default='Base', type=str)
-    token = request.args.get('token', default='', type=str)
 
-    # Verify Token 
-    #//TODO: Verify Token
-    num_answers_cards = 5
-    # TODO: Replace by os.getenv("DEFAULT_NUM_ANSWERS")
-    answers = get_random_answer(num_answers_cards, deck)
-    questions = get_random_question(1, deck)
+    extension = request.args.get('extension', default='Base', type=str)
+    # Get env. number of answers
+    num_answers_cards = os.getenv("DEFAULT_NUM_ANSWERS")
+    
+    # Get random cards
+    answers = get_random_answer(num_answers_cards, extension)
+    questions = get_random_question(1, extension)
+    
     game_data = {
-        "token": token,
-        "question": questions[0],
+        "question": questions,
         "answers": answers
     }
+    
+    # Convert dictionary to json and then to string
+    json_game = str(jsonify(game_data))
+    # # Sign the game
+    res = requests.post("http://signing/sign", json={"payload" : {"game": json_game}})
 
-    return make_response(jsonify({"game":game_data}), 200)
+    if(res.status_code == 200):
+        return_data = ast.literal_eval(res.text)
+        return make_response(jsonify('token', return_data['token'], 200))
+    
+    return make_response(jsonify({"error": "Can't find resources"}), 404)
