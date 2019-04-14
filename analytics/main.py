@@ -65,8 +65,11 @@ def submit():
 
     # Verify that token contains question data of the correct type.
     question = payload.get("question")
-    if (not question) or (not type(question) is str):
+    if (not question) or (not type(question) is dict):
         return error_response(400, "Malformed token payload, missing 'question'")
+    question_id = question.get("id")
+    if (not question_id) or (not type(question_id) is str):
+        return error_response(400, "Malformed token payload, missing question 'id'")
 
     # Verify that token contains answers data of the correct type.
     answers = payload.get("answers")
@@ -81,7 +84,7 @@ def submit():
     rows = []
     for answer in answers:
         if answer["id"] != choice:
-            rows.append(Record( question=question, selected_answer=choice, other_answer=answer["id"]))
+            rows.append(Record( question=question_id, selected_answer=choice, other_answer=answer["id"]))
 
     # Bulk insert new rows into the database.
     db.session.bulk_save_objects(rows)
@@ -92,14 +95,14 @@ def submit():
 
     # Count records that agree with the choice.
     count_agree = Record.query \
-        .filter_by(question=question) \
+        .filter_by(question=question_id) \
         .filter_by(selected_answer=choice) \
         .filter(Record.other_answer.in_(answer["id"] for answer in answers)) \
         .count()
 
     # Count records that disagree with the choice.
     count_disagree = Record.query \
-        .filter_by(question=question) \
+        .filter_by(question=question_id) \
         .filter(Record.selected_answer.in_(answer["id"] for answer in answers)) \
         .filter_by(other_answer=choice) \
         .count()

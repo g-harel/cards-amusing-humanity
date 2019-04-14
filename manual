@@ -16,7 +16,7 @@ sleep 0.5
 PAYLOAD=$(cat <<EOF
     {
         "payload": {
-            "question": "q123",
+            "question": {"id": "q123"},
             "answers": [
                 {"id": "a123"},
                 {"id": "a456"},
