@@ -1,38 +1,28 @@
-from flask import Blueprint, jsonify, make_response
-from datasource.database import db
-import random
-from models.answers import Answer, row2dict
-from models.questions import Question, row2dict
+import os
+from flask import Blueprint, jsonify, make_response, request
+from views.brewer import get_random_answer, get_random_question
+from models.answers import row2dict
+from models.questions import row2dict
+
 
 game = Blueprint('game', __name__, url_prefix='')
 
 @game.route('/game', methods=['GET'])
-def get_new_game(number_of_item):
-    """Obtain X number of random answers from database"""
-    random_answers = []
-    try:
-        number_of_item_int = int(number_of_item)
-        if type(number_of_item_int) is not int:
-            return make_response(jsonify({"code": 412, "msg": "type has to be integer"}), 404)
-        if number_of_item_int > MAXIMUM_CARD:
-            return make_response(jsonify({"code": 412, "msg": "number is too large"}), 412)
-        counter = 0
-        while counter < number_of_item_int:
-            random_index = random.randrange(0, db.session.query(Answer).count())
-            row = db.session.query(Answer)[random_index]
-            # Making sure data are unique
-            if not random_answers.__contains__(row):
-                random_answers.append(row)
-                counter = counter + 1
+def get_new_game():
+    """ Create and return a game object for user """
+    deck = request.args.get('deck', default='Base', type=str)
+    token = request.args.get('token', default='', type=str)
 
-        db.session.close()
-        return jsonify([row2dict(answer) for answer in random_answers])
-    except ValueError:
-        return make_response(jsonify({"code": 404, "msg": "Not Found"}), 404)
-    except Exception as error:
-        print("Problem while getting random answers")
-        print(error)
-        return make_response(jsonify({"code": 404, "msg": error}), 404)
+    # Verify Token 
+    #//TODO: Verify Token
+    num_answers_cards = 5
+    # TODO: Replace by os.getenv("DEFAULT_NUM_ANSWERS")
+    answers = get_random_answer(num_answers_cards, deck)
+    questions = get_random_question(1, deck)
+    game_data = {
+        "token": token,
+        "question": questions[0],
+        "answers": answers
+    }
 
-    finally:
-        db.session.close()
+    return make_response(jsonify({"game":game_data}), 200)

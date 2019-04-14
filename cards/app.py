@@ -15,6 +15,7 @@ def create_app():
     app = Flask(__name__)
     conf = DatabaseConfig()
     app.config['DEBUG'] = False
+    app.config["JSON_SORT_KEYS"] = False
     # Configure app before handing over the instance to SQLAlchemy.
     app.config["SQLALCHEMY_DATABASE_URI"] = conf.get_db_uri()
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False

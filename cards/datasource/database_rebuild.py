@@ -36,7 +36,16 @@ class DatabaseRebuilder:
                 return
         
             print("............ Rebuilding database..............")
-
+            if(forceRebuild):
+                try:
+                    db.session.query(Question).delete()
+                    db.session.query(Answer).delete()
+                    db.session.commit()
+                    db.session.close()
+                except:
+                    db.session.rollback()
+                    print("Problem while cleaning db")
+            
             # Init db, build table if they are not there
             init_db()
 
