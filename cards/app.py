@@ -21,13 +21,6 @@ def create_app():
     
     # Init Database
     db.init_app(app)
-
-    # Rebuild or build the database
-    db.drop_all()
-    db.create_all()
-    rebuilder = DatabaseRebuilder()
-    rebuilder.rebuild()
-
     app.register_blueprint(game.game)
     app.register_blueprint(general.main)
     return app
@@ -35,4 +28,7 @@ def create_app():
 
 if __name__ == '__main__':
     app = create_app()
+    # Rebuild or build the database
+    rebuilder = DatabaseRebuilder()
+    rebuilder.rebuild(app)
     app.run(host="0.0.0.0")
