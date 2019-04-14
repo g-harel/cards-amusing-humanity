@@ -4,186 +4,64 @@ info:
   title: Cards Service
   description: A card services in the game cards against humanity with OpenAPI 3.0 specification
 paths:
-  /api/questions:
+  /game:
     get:
       description: |
-        Returns all question cards stored in database.
-      operationId: Get all questions.
-      responses:
-        '200':
-          description: All Questions Cards
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Question'
-        default:
-          description: unexpected error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-
-  /api/question/{id}:
-    get:
-      description: Return a specific question.
-      operationId: Find a question card by id.
+        Returns a new game and different game at each call
+      operationId: Get a new game.
       parameters:
-        - name: id
-          in: path
-          description: ID of question card. (UUID)
-          required: true
+        - in: query
+          name: token
           schema:
             type: string
-            format: string
-      responses:
-        '200':
-          description: Question Card Response
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Question'
-        default:
-          description: unexpected error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-  /api/answers:
-    get:
-      description: |
-        Returns all answer cards stored in database.
-      operationId: Get all answers.
-      responses:
-        '200':
-          description: All Answers Cards
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Answer'
-        default:
-          description: unexpected error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-
-  /api/answers/{id}:
-    get:
-      description: Return a specific answer.
-      operationId: Find an answer card by id.
-      parameters:
-        - name: id
-          in: path
-          description: ID of answer card. (UUID)
-          required: true
+          description: The token provided with the game
+        - in: query
+          name: deck
           schema:
             type: string
-            format: string
+          description: Optional parameter specify a type of deck (e.g. NSFW)
       responses:
-        '200':
-          description: Answer Card Response
+        "200":
+          description: Successful handling.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Answer'
-        default:
-          description: unexpected error
+                $ref: "#/components/schemas/Game"
+        "401":
+          description: Expired or malformed token.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: "#/components/schemas/Error"
+        "500":
+          description: Internal Error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
 
-  /api/brewer/answers:
-    get:
-      description: Return a number of answer cards in random order.
-      operationId: Get random answers.
-      parameters:
-      - in: query
-        name: number
-        schema:
-          type: integer
-        description: Number of answer cards to return
-      responses:
-        '200':
-          description: Random Answer Cards.
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Answer'
-        default:
-          description: unexpected error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-
-  /api/brewer/questions:
-    get:
-      description: Return a number of question cards in random order.
-      operationId: Get random questions.
-      parameters:
-      - in: query
-        name: number
-        schema:
-          type: integer
-        description: Number of answer cards to return
-      responses:
-        '200':
-          description: Random Question Cards.
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Question'
-        default:
-          description: unexpected error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
 
 components:
   schemas:
-    Question:
+    Game:
       required:
-        - id
-        - text
-        - extension
+        - question
+        - answers
       properties:
-        id:
+        token:
           type: string
-        text:
+        question:
           type: string
-        extension:
-          type: string
+        answers:
+          type: array
+          items:
+            type: string
 
-    Answer:
-      required:
-        - id
-        - text
-        - extension
-      properties:
-        id:
-          type: string
-        text:
-          type: string
-        extension:
-          type: string
 
     Error:
       required:
         - code
         - message
       properties:
-        code:
-          type: integer
-          format: int32
         message:
           type: string
