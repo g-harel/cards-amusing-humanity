@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, make_response
-from database import db
+from datasource.database import db
 import random
 from models.answers import Answer, row2dict
 from models.questions import Question, row2dict

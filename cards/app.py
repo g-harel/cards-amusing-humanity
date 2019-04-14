@@ -2,8 +2,8 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from views import  general, game
 from settings import DatabaseConfig
-from database import db
-
+from datasource.database import db
+from datasource.database_rebuild import DatabaseRebuilder
 
 # Token expiry in minutes.
 # Value is used to clear the token blacklist.
@@ -18,7 +18,16 @@ def create_app():
     # Configure app before handing over the instance to SQLAlchemy.
     app.config["SQLALCHEMY_DATABASE_URI"] = conf.get_db_uri()
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    
+    # Init Database
     db.init_app(app)
+
+    # Rebuild or build the database
+    db.drop_all()
+    db.create_all()
+    rebuilder = DatabaseRebuilder()
+    rebuilder.rebuild()
+
     app.register_blueprint(game.game)
     app.register_blueprint(general.main)
     return app
