@@ -43,6 +43,7 @@ paths:
 
 components:
   schemas:
+          
     Game:
       required:
         - question
@@ -51,12 +52,26 @@ components:
         token:
           type: string
         question:
-          type: string
+          type: object
+          properties:
+            id:
+              type: string
+            text:
+              type: string
+            extension:
+              type: string
+            
         answers:
           type: array
           items:
-            type: string
-
+            type: object
+            properties:
+              id:
+                type: string
+              text:
+                type: string
+              extension:
+                type: string
 
     Error:
       required:

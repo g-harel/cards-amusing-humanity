@@ -1,6 +1,6 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-from views import answers, questions, general, brewer
+from views import  general, game
 from settings import DatabaseConfig
 from database import db
 
@@ -19,10 +19,8 @@ def create_app():
     app.config["SQLALCHEMY_DATABASE_URI"] = conf.get_db_uri()
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     db.init_app(app)
-    app.register_blueprint(answers.ans)
-    app.register_blueprint(questions.questions)
+    app.register_blueprint(game.game)
     app.register_blueprint(general.main)
-    app.register_blueprint(brewer.brew)
     return app
 
 
