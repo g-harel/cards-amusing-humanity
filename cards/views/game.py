@@ -26,12 +26,12 @@ def get_new_game():
     }
     
     # Convert dictionary to json and then to string
-    json_game = str(jsonify(game_data))
+    json_game = str(game_data)
     # # Sign the game
     res = requests.post("http://signing/sign", json={"payload" : {"game": json_game}})
 
     if(res.status_code == 200):
         return_data = ast.literal_eval(res.text)
-        return make_response(jsonify('token', return_data['token'], 200))
+        return make_response(jsonify({'token':return_data['token']}, 200))
     
     return make_response(jsonify({"error": "Can't find resources"}), 404)
