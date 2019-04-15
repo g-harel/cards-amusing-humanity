@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 import {Endpoint, DefaultClient} from "rickety";
 
-import {IGameResult, IGameSubmit, IGameToken, Deck} from "./types";
+import {IGameResult, IGameSubmit, IGameToken, IDeck} from "./types";
 
 class DelayClient extends DefaultClient {
     async send(request: any): Promise<any> {
@@ -26,7 +26,7 @@ class CreateGameClient extends DelayClient {
     }
 }
 
-export const CreateGame = new Endpoint<{deck: Deck}, IGameToken>({
+export const CreateGame = new Endpoint<{deck: IDeck}, IGameToken>({
     client: new CreateGameClient(),
     method: "GET",
     path: "/game",

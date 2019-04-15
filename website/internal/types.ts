@@ -1,4 +1,4 @@
-export type Deck = "base" | "mini";
+export type IDeck = "mini" | "nsfw";
 
 export interface ICard {
     id: string;
