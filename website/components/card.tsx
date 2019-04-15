@@ -101,8 +101,11 @@ const Collapse = styled.div`
 export const Card: React.FunctionComponent<IProps> = (props) => {
     // Deterministic angle calculation using first two chars from content.
     // Randomness would cause the angle to change on each render.
-    const content = (props.content || "").padEnd(2, " ");
+    let content = (props.content || "").padEnd(2, " ");
     const angle = ((content.charCodeAt(0) + content.charCodeAt(1)) % 11) - 5;
+
+    // Replace blank spaces with a longer line.
+    content = content.replace(/_/g, "__________");
 
     if (props.type === "outline") {
         return (
@@ -119,11 +122,11 @@ export const Card: React.FunctionComponent<IProps> = (props) => {
             </Collapse>
             {props.type === "black" ? (
                 <Black angle={angle} onClick={props.onClick}>
-                    {props.content}
+                    {content}
                 </Black>
             ) : (
                 <White angle={angle} onClick={props.onClick}>
-                    {props.content}
+                    {content}
                 </White>
             )}
         </Wrapper>

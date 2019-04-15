@@ -134,6 +134,7 @@ export const Board: React.FunctionComponent = () => {
 
     return (
         <Wrapper>
+            {/* TODO add deck selector */}
             <Row style={{pointerEvents: "none"}}>
                 <Card type="black" content={game.question.text} />
                 <div>
