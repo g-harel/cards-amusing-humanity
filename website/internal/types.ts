@@ -1,6 +1,9 @@
+export type Extension = "Base" | "Mini";
+
 export interface ICard {
     id: string;
-    description: string;
+    text: string;
+    extension: string;
 }
 
 export interface IGameToken {

@@ -82,7 +82,7 @@
   {
     "id": "236dac48-7235-4ea4-9881-675fadd96958",
     "text": "Steven Hawking talking dirty.",
-    "extension": "Mini"
+    "extension": "Base"
   },
   {
     "id": "65344a09-ec30-4888-a951-d2c770d3c724",
@@ -147,7 +147,7 @@
   {
     "id": "e413dfb0-c3e0-40cc-a143-375cf284f0fa",
     "text": "Roofies.",
-    "extension": "Mini"
+    "extension": "Base"
   },
   {
     "id": "70e038f4-5579-4c6f-831e-9abc11d89716",
@@ -192,7 +192,7 @@
   {
     "id": "c02e8967-c768-460a-b8a9-5064488e9a19",
     "text": "Kim Jong-il.",
-    "extension": "Mini"
+    "extension": "Base"
   },
   {
     "id": "c7337258-c8d0-4552-a02b-259b7d96aa55",
@@ -217,7 +217,7 @@
   {
     "id": "0de3b1d7-6ca6-48f6-9570-1a69274a9465",
     "text": "A salty surprise.",
-    "extension": "Mini"
+    "extension": "Base"
   },
   {
     "id": "8149cc00-26db-400d-99a3-25161711bcae",
@@ -232,12 +232,12 @@
   {
     "id": "7b16036f-fcce-469a-a70e-d2a7ba645ffe",
     "text": "YOU MUST CONSTRUCT ADDITIONAL PYLONS.",
-    "extension": "Mini"
+    "extension": "Base"
   },
   {
     "id": "4ab9d4b3-915c-44ef-8bf1-9f8291b5975a",
     "text": "Panda sex.",
-    "extension": "Mini"
+    "extension": "Base"
   },
   {
     "id": "98d089d7-8e55-414e-9ab9-e657b5676935",
@@ -342,7 +342,7 @@
   {
     "id": "fe297f82-ac50-499a-bf3a-c3f433f10703",
     "text": "Figgy pudding.",
-    "extension": "Mini"
+    "extension": "Base"
   },
   {
     "id": "c79ba7be-d73a-474b-86b8-71342739b654",
@@ -382,7 +382,7 @@
   {
     "id": "6c20a8ba-4eda-4a13-878b-294ea3a27a67",
     "text": "Obesity.",
-    "extension": "Mini"
+    "extension": "Base"
   },
   {
     "id": "6a984c6d-11b2-4f1a-b4de-4d1d05c50305",
@@ -557,7 +557,7 @@
   {
     "id": "55aee6fe-f3aa-4d74-b697-e522e7c2c238",
     "text": "A hot mess.",
-    "extension": "Mini"
+    "extension": "Base"
   },
   {
     "id": "87e5f707-bd1c-45ae-b126-cf8a8553907b",
@@ -572,7 +572,7 @@
   {
     "id": "b26c7341-39b6-4fdc-9fb6-f022224f0499",
     "text": "Fear itself.",
-    "extension": "Mini"
+    "extension": "Base"
   },
   {
     "id": "4afe35ff-4b70-45ac-b5f9-e72c35ad7b29",
@@ -682,7 +682,7 @@
   {
     "id": "d188cdab-56b5-4a44-b68e-5dce64b8a31c",
     "text": "Michael Jackson.",
-    "extension": "mini"
+    "extension": "Base"
   },
   {
     "id": "a9338211-5c0f-4c69-8208-08288b92b09e",

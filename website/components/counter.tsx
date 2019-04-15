@@ -7,14 +7,12 @@ interface IProps {
 
 export const Counter: React.FunctionComponent<IProps> = (props) => {
     const [current, setCurrent] = useState<number>(0);
+    const target = Math.round(props.target);
 
-    if (props.target !== current) {
+    if (target !== current) {
         // Update current value to be closer to target.
         // Delay is increased as current value approaches target.
-        const proximity = Math.pow(
-            1 - Math.abs(props.target - current) / 100,
-            4,
-        );
+        const proximity = Math.pow(1 - Math.abs(target - current) / 100, 4);
         setTimeout(() => setCurrent(current + 1), 200 * proximity);
     } else {
         if (props.callback) {

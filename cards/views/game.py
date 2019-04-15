@@ -15,23 +15,20 @@ def get_new_game():
     extension = request.args.get('extension', default='Base', type=str)
     # Get env. number of answers
     num_answers_cards = os.getenv("DEFAULT_NUM_ANSWERS")
-    
+
     # Get random cards
     answers = get_random_answer(num_answers_cards, extension)
     questions = get_random_question(1, extension)
-    
+
     game_data = {
-        "question": questions,
+        "question": questions[0],
         "answers": answers
     }
-    
-    # Convert dictionary to json and then to string
-    json_game = str(game_data)
     # # Sign the game
-    res = requests.post("http://signing/sign", json={"payload" : {"game": json_game}})
+    res = requests.post("http://signing/sign", json={"payload" : game_data})
 
     if(res.status_code == 200):
         return_data = ast.literal_eval(res.text)
-        return make_response(jsonify({'token':return_data['token']}, 200))
-    
+        return jsonify({'token':return_data['token']})
+
     return make_response(jsonify({"error": "Can't find resources"}), 404)

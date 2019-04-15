@@ -1,43 +1,51 @@
 import jwt from "jsonwebtoken";
-import {Endpoint} from "rickety";
+import {Endpoint, DefaultClient} from "rickety";
 
-import {IGameResult, IGameSubmit, IGameToken} from "./types";
+import {IGameResult, IGameSubmit, IGameToken, Extension} from "./types";
 
-export const CreateGame = new Endpoint<{}, IGameToken>({
-    client: {
-        send: async () => {
-            await new Promise((r) => setTimeout(r, 400));
-            const res: IGameToken = {
-                raw: "",
-                question: {
-                    id: "b1",
-                    description: "What gets better with age?",
-                },
-                answers: [
-                    {id: "w1", description: "Daddy's credit card."},
-                    {id: "w2", description: "Drinking alone."},
-                    {id: "w3", description: "The glass ceiling."},
-                    {id: "w4", description: "A lifetime of sadness."},
-                    {id: "w5", description: "A PowerPoint presentation."},
-                ],
-            };
-            res.raw = jwt.sign(res, "-");
-            return {status: 200, body: JSON.stringify(res)};
-        },
-    },
+class DelayClient extends DefaultClient {
+    async send(request: any): Promise<any> {
+        await new Promise((r) => setTimeout(r, 500));
+        return super.send(request);
+    }
+}
+
+class CreateGameClient extends DelayClient {
+    async send(request: any): Promise<any> {
+        // TODO type checks
+        const {extension} = JSON.parse(request.body);
+        request.url += `?extension=${extension}`;
+        request.body = undefined;
+        const response = await super.send(request);
+        const token = JSON.parse(response.body).token;
+        const payload = jwt.decode(token) || {};
+        (payload as any).raw = token;
+        return Object.assign({}, response, {
+            body: JSON.stringify(payload),
+        });
+    }
+}
+
+export const CreateGame = new Endpoint<{extension: Extension}, IGameToken>({
+    client: new CreateGameClient(),
     method: "GET",
     path: "/game",
 });
 
+class SubmitGameClient extends DelayClient {
+    async send(request: any): Promise<any> {
+        // TODO type checks
+        const body = JSON.parse(request.body);
+        body.token = body.token.raw;
+        return super.send(
+            Object.assign({}, request, {
+                body: JSON.stringify(body),
+            }),
+        );
+    }
+}
+
 export const SubmitGame = new Endpoint<IGameSubmit, IGameResult>({
-    client: {
-        send: async () => {
-            await new Promise((r) => setTimeout(r, 400));
-            const res: IGameResult = {
-                similarity: Math.round(42.314 * Math.random()),
-            };
-            return {status: 200, body: JSON.stringify(res)};
-        },
-    },
+    client: new SubmitGameClient(),
     path: "/submit",
 });

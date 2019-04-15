@@ -79,9 +79,7 @@ export const Board: React.FunctionComponent = () => {
         setGame(null);
         setSelection(null);
         setResult(null);
-        CreateGame.call({}).then((game) => {
-            setGame(game);
-        });
+        CreateGame.call({extension: "Mini"}).then(setGame);
     };
 
     // Load a game on initial render.
@@ -101,7 +99,7 @@ export const Board: React.FunctionComponent = () => {
             <Row>
                 <Result>
                     <Counter
-                        target={result.similarity}
+                        target={result.similarity * 100}
                         callback={() => setCounting(false)}
                     />
                     %<Subtitle>agree</Subtitle>
@@ -126,7 +124,7 @@ export const Board: React.FunctionComponent = () => {
                     <Card
                         key={card.id}
                         type="white"
-                        content={card.description}
+                        content={card.text}
                         onClick={() => submit(card)}
                     />
                 ))}
@@ -137,13 +135,13 @@ export const Board: React.FunctionComponent = () => {
     return (
         <Wrapper>
             <Row style={{pointerEvents: "none"}}>
-                <Card type="black" content={game.question.description} />
+                <Card type="black" content={game.question.text} />
                 <div>
                     <Collapse>
                         <Card type="outline" content="" />
                     </Collapse>
                     {selection && (
-                        <Card type="white" content={selection.description} />
+                        <Card type="white" content={selection.text} />
                     )}
                 </div>
             </Row>
