@@ -34,7 +34,7 @@ class DatabaseRebuilder:
             if(number_of_answer > 0 and number_of_question > 0 and not forceRebuild):
                 print("...Database is ready...")
                 return
-        
+
             print("............ Rebuilding database..............")
             if(forceRebuild):
                 try:
@@ -45,13 +45,13 @@ class DatabaseRebuilder:
                 except:
                     db.session.rollback()
                     print("Problem while cleaning db")
-            
+
             # Init db, build table if they are not there
             init_db()
 
             if(number_of_answer == 0):
                self.rebuild_answers_table()
-            
+
             if(number_of_question == 0):
                 self.rebuild_questions_table()
 
@@ -66,7 +66,7 @@ class DatabaseRebuilder:
             Answers.append(Answer(
                 id=row['id'],
                 text=row['text'],
-                extension=row['extension']))
+                deck=row['deck']))
         try:
             db.session.add_all(Answers)
             db.session.commit()
@@ -79,13 +79,13 @@ class DatabaseRebuilder:
     def rebuild_questions_table(self):
         """ Rebuilding Questions Table """
         questions = self.grab_json(self.DEFAULT_QUESTIONS_JSON)
-        # Convert questions dict to Question and save in db 
+        # Convert questions dict to Question and save in db
         Questions = []
         for i, row in enumerate(questions):
             Questions.append(Question(
                 id=row['id'],
                 text=row['text'],
-                extension=row['extension']))
+                deck=row['deck']))
         try:
             db.session.add_all(Questions)
             db.session.commit()
@@ -107,7 +107,6 @@ class DatabaseRebuilder:
         except Exception as error:
             print("Problem with grab_json")
             print(error)
-        
+
         return data_dict
 
-           

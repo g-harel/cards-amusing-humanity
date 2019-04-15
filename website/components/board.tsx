@@ -79,7 +79,7 @@ export const Board: React.FunctionComponent = () => {
         setGame(null);
         setSelection(null);
         setResult(null);
-        CreateGame.call({extension: "Mini"}).then(setGame);
+        CreateGame.call({deck: "mini"}).then(setGame);
     };
 
     // Load a game on initial render.

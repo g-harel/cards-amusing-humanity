@@ -11,10 +11,10 @@ paths:
       operationId: Get a new game.
       parameters:
         - in: query
-          name: extension
+          name: deck
           schema:
             type: string
-          description: Optional parameter specify a type of deck (e.g. NSFW)
+          description: Optional parameter specify a type of deck (e.g. nsfw)
       responses:
         "200":
           description: Successful handling.
@@ -32,7 +32,7 @@ paths:
 
 components:
   schemas:
-          
+
     Game:
       required:
         - token

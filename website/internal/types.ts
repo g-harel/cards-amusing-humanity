@@ -1,9 +1,9 @@
-export type Extension = "Base" | "Mini";
+export type Deck = "base" | "mini";
 
 export interface ICard {
     id: string;
     text: string;
-    extension: string;
+    deck: string;
 }
 
 export interface IGameToken {

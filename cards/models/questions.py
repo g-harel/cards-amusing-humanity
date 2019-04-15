@@ -12,7 +12,7 @@ class Question(Base):
     __tablename__ = "questions"
     id = Column(UUID(as_uuid=True), primary_key=True)
     text = Column(Text, nullable=False)
-    extension = Column(String(100), nullable=False)
+    deck = Column(String(100), nullable=False)
 
     def __repr__(self):
         return '<Question-Card {}>'.format(self.text)

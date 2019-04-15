@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 import {Endpoint, DefaultClient} from "rickety";
 
-import {IGameResult, IGameSubmit, IGameToken, Extension} from "./types";
+import {IGameResult, IGameSubmit, IGameToken, Deck} from "./types";
 
 class DelayClient extends DefaultClient {
     async send(request: any): Promise<any> {
@@ -13,8 +13,8 @@ class DelayClient extends DefaultClient {
 class CreateGameClient extends DelayClient {
     async send(request: any): Promise<any> {
         // TODO type checks
-        const {extension} = JSON.parse(request.body);
-        request.url += `?extension=${extension}`;
+        const {deck} = JSON.parse(request.body);
+        request.url += `?deck=${deck}`;
         request.body = undefined;
         const response = await super.send(request);
         const token = JSON.parse(response.body).token;
@@ -26,7 +26,7 @@ class CreateGameClient extends DelayClient {
     }
 }
 
-export const CreateGame = new Endpoint<{extension: Extension}, IGameToken>({
+export const CreateGame = new Endpoint<{deck: Deck}, IGameToken>({
     client: new CreateGameClient(),
     method: "GET",
     path: "/game",

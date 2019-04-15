@@ -12,13 +12,13 @@ game = Blueprint('game', __name__, url_prefix='')
 def get_new_game():
     """ Create and return a game object for user """
 
-    extension = request.args.get('extension', default='Base', type=str)
+    deck = request.args.get('deck', default='Base', type=str)
     # Get env. number of answers
     num_answers_cards = os.getenv("DEFAULT_NUM_ANSWERS")
 
     # Get random cards
-    answers = get_random_answer(num_answers_cards, extension)
-    questions = get_random_question(1, extension)
+    answers = get_random_answer(num_answers_cards, deck)
+    questions = get_random_question(1, deck)
 
     game_data = {
         "question": questions[0],
