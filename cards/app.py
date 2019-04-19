@@ -5,13 +5,9 @@ from settings import DatabaseConfig
 from datasource.database import db
 from datasource.database_rebuild import DatabaseRebuilder
 
-# Token expiry in minutes.
-# Value is used to clear the token blacklist.
-# exp = 60 * int(float(os.getenv("TOKEN_TTL_HOURS")))
-exp = 60 * int(float(1))
 
 def create_app():
-    
+    """ Helper Method to setup application """    
     app = Flask(__name__)
     conf = DatabaseConfig()
     app.config['DEBUG'] = False

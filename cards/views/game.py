@@ -20,7 +20,10 @@ def get_new_game():
     answers = get_random_answer(num_answers_cards, deck)
     questions = get_random_question(1, deck)
 
+    # Adding back expiration time
+    exp = 60 * int(float(os.getenv("TOKEN_TTL_HOURS")))
     game_data = {
+        "exp": exp,
         "question": questions[0],
         "answers": answers
     }

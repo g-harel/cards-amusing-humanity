@@ -9,7 +9,6 @@ def get_random_answer(number_of_item, deck):
     random_answers = []
     try:
         number_of_item_int = int(number_of_item)
-        counter = 0
         total_cards = db.session.query(Answer).filter(Answer.deck == deck)
         deck = []
 
@@ -19,13 +18,12 @@ def get_random_answer(number_of_item, deck):
         if(deck.__len__() == 0):
             return
 
-        while counter < number_of_item_int:
+        while random_answers.__len__() < number_of_item_int:
             random_index = random.randrange(0, deck.__len__())
             row = deck[random_index]
             # Making sure data are unique and it's the right deck
             if not random_answers.__contains__(row):
                 random_answers.append(row)
-                counter = counter + 1
 
         db.session.close()
         return [row2dict(answer) for answer in random_answers]
@@ -45,7 +43,6 @@ def get_random_question(number_of_item, deck):
     random_questions = []
     try:
         number_of_item_int = int(number_of_item)
-        counter = 0
         total_cards = db.session.query(Question).filter(Question.deck == deck)
         deck = []
 
@@ -54,13 +51,12 @@ def get_random_question(number_of_item, deck):
 
         if(deck.__len__() == 0):
             return
-        while counter < number_of_item_int:
+        while random_questions.__len__() < number_of_item_int:
             random_index = random.randrange(0, deck.__len__())
             row = deck[random_index]
             # Making sure data are unique and it's the right deck
             if not random_questions.__contains__(row):
                 random_questions.append(row)
-                counter = counter + 1
 
         db.session.close()
         return [row2dict(question) for question in random_questions]

@@ -36,7 +36,6 @@ def sign():
     body = request.get_json()
     if (not body):
         return error_response(400, "No data")
-
     # Verify that request contains payload data of the correct type.
     payload = body.get("payload")
     if (not payload) or (not type(payload) is dict):
