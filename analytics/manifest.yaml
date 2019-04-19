@@ -54,6 +54,12 @@ spec:
             configMapKeyRef:
               name: analytics
               key: postgres-password
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 5000
+          initialDelaySeconds: 3
+          periodSeconds: 2
 
 ---
 

@@ -28,6 +28,8 @@ _This step can be skipped if your `kubeconfig` is already configured to access t
 
 > `skaffold dev`
 
+_Some features will not work until all pods are ready. This can be checked using `kubectl get pods` or when there are no more error logs from the regular health checks._
+
 **Open website** _(Optional)_
 
 > `minikube service website`
