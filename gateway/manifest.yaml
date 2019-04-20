@@ -44,12 +44,12 @@ spec:
             configMapKeyRef:
               name: gateway
               key: blocked-ip-timeout
-        readinessProbe:
-          httpGet:
-            path: /
-            port: 5000
-          initialDelaySeconds: 3
-          periodSeconds: 2
+        # readinessProbe:
+        #   httpGet:
+        #     path: /
+        #     port: 5000
+        #   initialDelaySeconds: 3
+        #   periodSeconds: 2
 ---
 
 # Expose Gateway's Redis Service

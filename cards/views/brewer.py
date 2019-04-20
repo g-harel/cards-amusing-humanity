@@ -1,5 +1,6 @@
-from datasource.database import db
+import logging
 import random
+from datasource.database import db
 from models.answers import Answer, row2dict
 from models.questions import Question, row2dict
 

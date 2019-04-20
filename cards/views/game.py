@@ -2,6 +2,7 @@ import os
 import requests
 import json
 import ast
+import logging
 from flask import Blueprint, jsonify, make_response, request
 from views.brewer import get_random_answer, get_random_question
 
@@ -12,13 +13,14 @@ game = Blueprint('game', __name__, url_prefix='')
 def get_new_game():
     """ Create and return a game object for user """
 
-    deck = request.args.get('deck', default='Base', type=str)
+    deck = request.args.get('deck', default='mini', type=str)
     # Get env. number of answers
     num_answers_cards = os.getenv("DEFAULT_NUM_ANSWERS")
 
     # Get random cards
     answers = get_random_answer(num_answers_cards, deck)
     questions = get_random_question(1, deck)
+
 
     # Adding back expiration time
     exp = 60 * int(float(os.getenv("TOKEN_TTL_HOURS")))

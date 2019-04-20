@@ -29,7 +29,7 @@ class CreateGameClient extends DelayClient {
 export const CreateGame = new Endpoint<{deck: IDeck}, IGameToken>({
     client: new CreateGameClient(),
     method: "GET",
-    path: "/game",
+    path: "/api/game",
 });
 
 class SubmitGameClient extends DelayClient {
@@ -47,5 +47,5 @@ class SubmitGameClient extends DelayClient {
 
 export const SubmitGame = new Endpoint<IGameSubmit, IGameResult>({
     client: new SubmitGameClient(),
-    path: "/submit",
+    path: "/api/submit",
 });
