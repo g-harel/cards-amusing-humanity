@@ -1,5 +1,6 @@
 import redis
 import os
+import logging
 from flask import Blueprint, request
 
 gate = Blueprint('gate', __name__, url_prefix='/api')
@@ -11,6 +12,7 @@ gate = Blueprint('gate', __name__, url_prefix='/api')
 
 RATE_LIMIT = 3
 TIMEOUT = 5
+gunicorn_logger = logging.getLogger('gunicorn.error')
 
 # Grabing the IP from user's request
 def authorize_request(Request):
@@ -25,6 +27,7 @@ def authorize_request(Request):
         print("Problem while getting IP")
         return True
 
+    gunicorn_logger.info('IP Address: ' + str(IP))
     #TODO: Refresh DB, remove expired rate
     #TODO: Save the new IP entry or increment one
     #TODO Get new count and decide to block or allow
