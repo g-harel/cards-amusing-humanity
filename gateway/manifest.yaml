@@ -1,0 +1,87 @@
+# Service to expose Gateway deployment.
+apiVersion: v1
+kind: Service
+metadata:
+  name: gateway
+spec:
+  selector:
+    app: gateway
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 5000
+
+---
+
+# Gateway service deployment.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gateway
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: gateway
+  template:
+    metadata:
+      labels:
+        app: gateway
+    spec:
+      containers:
+      - name: gateway
+        image: cah-gateway
+        env:
+        - name: FLASK_DEBUG
+          value: "1"
+        - name: RATE-LIMITING-THRESHOLD
+          valueFrom:
+            configMapKeyRef:
+              name: gateway
+              key: rate-limiting-threshold
+        - name: BLOCKED-IP-TIMEOUT
+          valueFrom:
+            configMapKeyRef:
+              name: gateway
+              key: blocked-ip-timeout
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 5000
+          initialDelaySeconds: 3
+          periodSeconds: 2
+---
+
+# Expose Gateway's Redis Service
+
+apiVersion: v1
+kind : Service
+metadata:
+    name: gateway-redis
+spec:
+    selector:
+      app:  gateway-redis
+    ports:
+    - protocol: TCP
+      port: 6379
+
+---
+
+# Gateway Redis Service
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+  name: gateway-redis
+spec:
+    replicas: 1
+    selector:
+      matchLabels:
+        app: gateway-redis
+    template:
+      metadata:
+         labels:
+          app: gateway-redis
+      spec:
+        containers:
+        - name: gateway-redis
+          image: redis:5

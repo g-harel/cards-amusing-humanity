@@ -17,6 +17,10 @@ build:
       "*.py": .
   - image: cah-website
     context: website
+  - image: cah-gateway
+    context: gateway
+    sync:
+        "*.py":
 deploy:
   kubectl:
     manifests:
