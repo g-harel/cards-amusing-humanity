@@ -65,36 +65,6 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
 
-  /app:
-    get:
-      description: Obtain link to static HTML front-end application.
-      operationId: Get Front-End
-      responses:
-        "200":
-          description: Successful handling.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/App"
-        "401":
-          description: Expired or malformed token.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
-        "403":
-          description: Duplicate game submission.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
-        "500":
-          description: Internal Error.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
-
 components:
   schemas:
     Error:
@@ -113,13 +83,6 @@ components:
         choice:
           type: string
         token:
-          type: string
-    App:
-      type: object
-      required:
-      - app
-      properties:
-        app:
           type: string
     Result:
       type: object
