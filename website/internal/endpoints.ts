@@ -14,7 +14,7 @@ class CreateGameClient extends DelayClient {
     async send(request: any): Promise<any> {
         // TODO type checks
         const {deck} = JSON.parse(request.body);
-        request.url += `?deck=${deck}`;
+        request.url += `/game?deck=${deck}`;
         request.body = undefined;
         const response = await super.send(request);
         const token = JSON.parse(response.body).token;
@@ -29,7 +29,7 @@ class CreateGameClient extends DelayClient {
 export const CreateGame = new Endpoint<{deck: IDeck}, IGameToken>({
     client: new CreateGameClient(),
     method: "GET",
-    path: "/api/game",
+    path: "/api",
 });
 
 class SubmitGameClient extends DelayClient {
@@ -37,6 +37,7 @@ class SubmitGameClient extends DelayClient {
         // TODO type checks
         const body = JSON.parse(request.body);
         body.token = body.token.raw;
+        request.url += `/submit`
         return super.send(
             Object.assign({}, request, {
                 body: JSON.stringify(body),
@@ -47,5 +48,5 @@ class SubmitGameClient extends DelayClient {
 
 export const SubmitGame = new Endpoint<IGameSubmit, IGameResult>({
     client: new SubmitGameClient(),
-    path: "/api/submit",
+    path: "/api",
 });
