@@ -32,7 +32,7 @@ data:
   postgres-name: cards
   postgres-user: postgresadmin
   postgres-password: admin123
-  default_num_answers: '5'
+  default_num_answers: "5"
 
 ---
 
@@ -42,7 +42,7 @@ data:
   metadata:
     name: gateway
   data:
-    rate-limiting-threshold: '200'
-    blocked-ip-timeout: '60'
+    rate_limiting_threshold: "3"
+    blocked_ip_timeout: "3"
 
 ---

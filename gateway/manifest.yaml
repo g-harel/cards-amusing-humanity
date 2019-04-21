@@ -34,22 +34,22 @@ spec:
         env:
         - name: FLASK_DEBUG
           value: "1"
-        - name: RATE-LIMITING-THRESHOLD
+        - name: RATE_LIMITING_THRESHOLD
           valueFrom:
             configMapKeyRef:
               name: gateway
-              key: rate-limiting-threshold
-        - name: BLOCKED-IP-TIMEOUT
+              key: rate_limiting_threshold
+        - name: BLOCKED_IP_TIMEOUT
           valueFrom:
             configMapKeyRef:
               name: gateway
-              key: blocked-ip-timeout
-        # readinessProbe:
-        #   httpGet:
-        #     path: /
-        #     port: 5000
-        #   initialDelaySeconds: 3
-        #   periodSeconds: 2
+              key: blocked_ip_timeout
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 5000
+          initialDelaySeconds: 3
+          periodSeconds: 2
 ---
 
 # Expose Gateway's Redis Service
