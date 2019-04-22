@@ -18,8 +18,10 @@ const Wrapper = styled.div<IProps>`
     transition: opacity 0.4s ease;
     user-select: none;
 
-    ${(p) => css`
-        padding: ${p.tight ? "0.5rem 1rem" : "1rem 2rem"};
+    ${({color, hide, tight}) => css`
+        color: ${color || "#444"}
+        opacity: ${hide ? 0 : 1}
+        padding: ${tight ? "0.5rem 1rem" : "1rem 2rem"};
     `}
 
     &:active {
@@ -28,10 +30,7 @@ const Wrapper = styled.div<IProps>`
 `;
 
 export const Button: React.FunctionComponent<IProps> = (props) => (
-    <Wrapper {...props} onClick={() => props.onClick()} style={{
-        opacity: props.hide ? 0 : 1,
-        color: props.color || "#444",
-    }}>
+    <Wrapper {...props} onClick={() => props.onClick()}>
         {props.children}
     </Wrapper>
 );

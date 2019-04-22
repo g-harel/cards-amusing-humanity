@@ -14,22 +14,14 @@ interface IBaseProps {
 }
 
 // CSS helper to generate the translate transform.
-const translate = (x?: number, y?: number) => {
-    return `translate(${x || 0}rem, ${y || 0}rem)`;
+const translate = (x: number = 0, y: number = 0) => {
+    return `translate(${x}rem, ${y}rem)`;
 };
 
 // CSS helper to generate the rotate transform.
-const rotate = (angle?: number, offset?: number) => {
-    angle = angle || 0;
-
-    if (offset) {
-        if (angle < 0) {
-            angle += offset;
-        } else {
-            angle -= offset;
-        }
-    }
-
+const rotate = (angle: number = 0, bounce: number = 0) => {
+    // Adds the bounce amount in the opposite direction to the angle.
+    angle = angle + (angle < 0 ? bounce : -bounce);
     return `rotate(${angle}deg)`;
 };
 
@@ -100,7 +92,7 @@ const Collapse = styled.div`
 
 export const Card: React.FunctionComponent<IProps> = (props) => {
     // Deterministic angle calculation using first two chars from content.
-    // Randomness would cause the angle to change on each render.
+    // Regular randomness would cause the angle to change on each render.
     let content = (props.content || "").padEnd(2, " ");
     const angle = ((content.charCodeAt(0) + content.charCodeAt(1)) % 11) - 5;
 

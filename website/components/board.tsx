@@ -140,7 +140,11 @@ export const Board: React.FunctionComponent = () => {
     return (
         <Wrapper>
             <Selector>
-                <Button tight onClick={toggleDeck} color={deck === "nsfw" ? "#bd0a0a" : "green"}>
+                <Button
+                    tight
+                    onClick={toggleDeck}
+                    color={deck === "nsfw" ? "#bd0a0a" : "green"}
+                >
                     {deck}
                 </Button>
             </Selector>

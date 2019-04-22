@@ -5,6 +5,7 @@ import {createGlobalStyle} from "styled-components";
 import {Board} from "./components/board";
 import {Title} from "./components/title";
 
+// Global styles, similar to traditional css.
 const GlobalStyle = createGlobalStyle`
     html, body, #root {
         background-color: #232323;
