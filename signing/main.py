@@ -5,8 +5,8 @@ from flask import Flask, request, jsonify, make_response
 import jwt
 
 # Token expiry in seconds.
-exp = 60 * 60 * int(float(os.getenv("TOKEN_TTL_HOURS")))
-key = os.getenv("SECRET_KEY")
+exp = 60 * 60 * int(float(os.getenv("TOKEN_TTL_HOURS", default=1)))
+key = os.getenv("SECRET_KEY", default="")
 
 app = Flask(__name__)
 
