@@ -12,6 +12,8 @@ flask-sqlalchemy = "*"
 redis = "*"
 requests = "*"
 gunicorn = "*"
+pytest = "*"
+pytest-mock = "*"
 
 [requires]
 python_version = "3.6"
