@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify, request, make_response
+from flask import Blueprint, jsonify, make_response
 
 main = Blueprint('main', __name__, url_prefix='')
 
@@ -7,7 +7,8 @@ main = Blueprint('main', __name__, url_prefix='')
 def get_main():
     return "Cards Service"
 
+
 # Making sure to hide internal message
 @main.errorhandler(500)
 def exception():
-    return error_response(500, "Internal error")
+    return make_response(jsonify({'error': 'internal'}), 500)

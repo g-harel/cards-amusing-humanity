@@ -1,8 +1,8 @@
-import logging
 import random
 from datasource.database import db
 from models.answers import Answer, row2dict
 from models.questions import Question, row2dict
+
 
 # Helper function in charge of getting X random answers card
 def get_random_answer(number_of_item, deck):
@@ -16,7 +16,7 @@ def get_random_answer(number_of_item, deck):
         for i, data in enumerate(total_cards):
             deck.append(data)
 
-        if(deck.__len__() == 0):
+        if deck.__len__() == 0:
             return
 
         while random_answers.__len__() < number_of_item_int:
@@ -50,7 +50,7 @@ def get_random_question(number_of_item, deck):
         for i, data in enumerate(total_cards):
             deck.append(data)
 
-        if(deck.__len__() == 0):
+        if deck.__len__() == 0:
             return
         while random_questions.__len__() < number_of_item_int:
             random_index = random.randrange(0, deck.__len__())

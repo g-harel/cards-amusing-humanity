@@ -1,13 +1,12 @@
 import os
 import requests
-import json
 import ast
-import logging
 from flask import Blueprint, jsonify, make_response, request
 from views.brewer import get_random_answer, get_random_question
 
 
 game = Blueprint('game', __name__, url_prefix='')
+
 
 @game.route('/game', methods=['GET'])
 def get_new_game():
@@ -21,7 +20,6 @@ def get_new_game():
     answers = get_random_answer(num_answers_cards, deck)
     questions = get_random_question(1, deck)
 
-
     # Adding back expiration time
     exp = 60 * int(float(os.getenv("TOKEN_TTL_HOURS")))
     game_data = {
@@ -32,8 +30,8 @@ def get_new_game():
     # # Sign the game
     res = requests.post("http://signing/sign", json={"payload" : game_data})
 
-    if(res.status_code == 200):
+    if res.status_code == 200:
         return_data = ast.literal_eval(res.text)
-        return jsonify({'token':return_data['token']})
+        return jsonify({'token': return_data['token']})
 
     return make_response(jsonify({"error": "Can't find resources"}), 404)

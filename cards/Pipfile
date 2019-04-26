@@ -12,6 +12,8 @@ psycopg2-binary = "*"
 pyjwt = "*"
 requests = "*"
 uuid="*"
+pytest = "*"
+pytest-mock = "*"
 
 [requires]
 python_version = "3.6"

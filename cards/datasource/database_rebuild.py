@@ -10,6 +10,7 @@ class DatabaseRebuilder:
     """ Rebuilding database from resource folder """
     DEFAULT_ANSWERS_JSON = '/../resources/postgres_public_answers.json'
     DEFAULT_QUESTIONS_JSON = '/../resources/postgres_public_questions.json'
+
     def rebuild(self, app, forceRebuild=False):
          with app.app_context():
             """ Only Rebuild database if we need to """
@@ -31,12 +32,12 @@ class DatabaseRebuilder:
             finally:
                 db.session.close()
 
-            if(number_of_answer > 0 and number_of_question > 0 and not forceRebuild):
+            if number_of_answer > 0 and number_of_question > 0 and not forceRebuild:
                 print("...Database is ready...")
                 return
 
             print("............ Rebuilding database..............")
-            if(forceRebuild):
+            if forceRebuild:
                 try:
                     db.session.query(Question).delete()
                     db.session.query(Answer).delete()
@@ -49,20 +50,20 @@ class DatabaseRebuilder:
             # Init db, build table if they are not there
             init_db()
 
-            if(number_of_answer == 0):
-               self.rebuild_answers_table()
+            if number_of_answer == 0:
+                self.rebuild_answers_table()
 
-            if(number_of_question == 0):
+            if number_of_question == 0:
                 self.rebuild_questions_table()
 
             return
 
     def rebuild_answers_table(self):
         """ Rebuilding Answer Table """
-        anwers = self.grab_json(self.DEFAULT_ANSWERS_JSON)
+        ans = self.grab_json(self.DEFAULT_ANSWERS_JSON)
         # Convert answers Dict to Answer and save in db
         Answers = []
-        for i, row in enumerate(anwers):
+        for i, row in enumerate(ans):
             Answers.append(Answer(
                 id=row['id'],
                 text=row['text'],
@@ -74,7 +75,6 @@ class DatabaseRebuilder:
         except Exception as error:
             print("Problem while saving all answers")
             print(error)
-
 
     def rebuild_questions_table(self):
         """ Rebuilding Questions Table """
@@ -93,7 +93,6 @@ class DatabaseRebuilder:
         except Exception as error:
             print("Problem while saving all answers")
             print(error)
-
 
     def grab_json(self, path_to_json):
         """ Grab data from json """

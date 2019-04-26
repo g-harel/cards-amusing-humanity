@@ -4,7 +4,6 @@ from sqlalchemy.ext.declarative import declarative_base
 from settings import DatabaseConfig
 
 
-
 """Initialize a database"""
 db_uri = DatabaseConfig().get_db_uri()
 engine = create_engine(db_uri, convert_unicode=True, echo=True)
