@@ -24,7 +24,6 @@ class CreateGameClient extends DelayClient {
 
         // Send modified request with parent client.
         const response = await super.send(request);
-        console.log(request, response);
         const responseBody = JSON.parse(response.body);
 
         // Extract game token from the response body.

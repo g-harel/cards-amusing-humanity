@@ -7,6 +7,11 @@ import jwt
 from main import app as tested_app
 
 
+class StatusResponse:
+    def __init__(self, status_code):
+        self.status_code = status_code
+
+
 class TestApp(unittest.TestCase):
     def setUp(self):
         self.app = tested_app.test_client()
@@ -44,7 +49,7 @@ class TestApp(unittest.TestCase):
         self.assertEqual(response.status_code, 400, msg=response.data)
 
 
-    @patch("requests.post", return_value={"status_code": 401})
+    @patch("requests.post", return_value=StatusResponse(401))
     def test_submit_401_token_invalid(self, mock_post):
         data = {"token": "token_invalid", "choice": "token_invalid"}
 
@@ -54,7 +59,7 @@ class TestApp(unittest.TestCase):
         mock_post.assert_called_with(ANY, json={"token": data["token"]})
 
 
-    @patch("requests.post", return_value={"status_code": 500})
+    @patch("requests.post", return_value=StatusResponse(500))
     def test_submit_500_downstream_error(self, mock_post):
         data = {"token": "downstream_error", "choice": "downstream_error"}
 
@@ -64,7 +69,7 @@ class TestApp(unittest.TestCase):
         mock_post.assert_called_with(ANY, json={"token": data["token"]})
 
 
-    @patch("requests.post", return_value={"status_code": 200})
+    @patch("requests.post", return_value=StatusResponse(200))
     @patch("persistence.tokens.TokenStore.get", return_value=True)
     def test_submit_403_duplicate_submission(self, mock_get, mock_post):
         data = {"token": "duplicate_submission", "choice": "duplicate_submission"}
@@ -75,7 +80,7 @@ class TestApp(unittest.TestCase):
         mock_get.assert_called_with(data["token"])
 
 
-    @patch("requests.post", return_value={"status_code": 200})
+    @patch("requests.post", return_value=StatusResponse(200))
     @patch("persistence.tokens.TokenStore.get", return_value=False)
     def test_submit_400_token_question_missing(self, mock_get, mock_post):
         payload = {"answers": []}
@@ -86,7 +91,7 @@ class TestApp(unittest.TestCase):
         self.assertEqual(response.status_code, 400, msg=response.data)
 
 
-    @patch("requests.post", return_value={"status_code": 200})
+    @patch("requests.post", return_value=StatusResponse(200))
     @patch("persistence.tokens.TokenStore.get", return_value=False)
     def test_submit_400_token_question_wrong_type(self, mock_get, mock_post):
         payload = {"question": 0, "answers": []}
@@ -97,7 +102,7 @@ class TestApp(unittest.TestCase):
         self.assertEqual(response.status_code, 400, msg=response.data)
 
 
-    @patch("requests.post", return_value={"status_code": 200})
+    @patch("requests.post", return_value=StatusResponse(200))
     @patch("persistence.tokens.TokenStore.get", return_value=False)
     def test_submit_400_token_question_id_missing(self, mock_get, mock_post):
         payload = {"question": {}, "answers": []}
@@ -108,7 +113,7 @@ class TestApp(unittest.TestCase):
         self.assertEqual(response.status_code, 400, msg=response.data)
 
 
-    @patch("requests.post", return_value={"status_code": 200})
+    @patch("requests.post", return_value=StatusResponse(200))
     @patch("persistence.tokens.TokenStore.get", return_value=False)
     def test_submit_400_token_answers_missing(self, mock_get, mock_post):
         payload = {"question": {"id": "token_answers_missing"}}
@@ -119,7 +124,7 @@ class TestApp(unittest.TestCase):
         self.assertEqual(response.status_code, 400, msg=response.data)
 
 
-    @patch("requests.post", return_value={"status_code": 200})
+    @patch("requests.post", return_value=StatusResponse(200))
     @patch("persistence.tokens.TokenStore.get", return_value=False)
     def test_submit_400_token_answers_wrong_type(self, mock_get, mock_post):
         payload = {"question": {"id": "token_answers_wrong_type"}, "answers": 0}
@@ -130,7 +135,7 @@ class TestApp(unittest.TestCase):
         self.assertEqual(response.status_code, 400, msg=response.data)
 
 
-    @patch("requests.post", return_value={"status_code": 200})
+    @patch("requests.post", return_value=StatusResponse(200))
     @patch("persistence.tokens.TokenStore.get", return_value=False)
     def test_submit_400_token_answers_id_missing(self, mock_get, mock_post):
         payload = {"question": {"id": "token_answers_id_missing"}, "answers": [{}]}
@@ -142,7 +147,7 @@ class TestApp(unittest.TestCase):
 
 
     @patch("persistence.records.RecordStore")
-    @patch("requests.post", return_value={"status_code": 200})
+    @patch("requests.post", return_value=StatusResponse(200))
     @patch("persistence.tokens.TokenStore.get", return_value=False)
     @patch("persistence.tokens.TokenStore.set")
     @patch("persistence.records.RecordStore.add")
@@ -163,7 +168,7 @@ class TestApp(unittest.TestCase):
 
 
     @patch("persistence.records.RecordStore")
-    @patch("requests.post", return_value={"status_code": 200})
+    @patch("requests.post", return_value=StatusResponse(200))
     @patch("persistence.tokens.TokenStore.get", return_value=False)
     @patch("persistence.tokens.TokenStore.set")
     @patch("persistence.records.RecordStore.add")

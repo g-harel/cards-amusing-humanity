@@ -54,9 +54,9 @@ def submit():
 
     # Check with the signing service that the token is valid.
     res = requests.post("http://signing/verify", json={"token": token})
-    if (res["status_code"] == 401):
+    if (res.status_code == 401):
         return error_response(401, "Expired or malformed token")
-    elif (res["status_code"] != 200):
+    elif (res.status_code != 200):
         return error_response(500, "Internal error")
 
     # Check blacklist to see if game has already been submitted.
