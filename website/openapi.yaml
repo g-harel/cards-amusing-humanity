@@ -1,0 +1,95 @@
+openapi: 3.0.0
+info:
+  title: Website Service
+  version: 1.0.0
+components:
+  schemas:
+    Error:
+      type: object
+      required:
+      - error
+      properties:
+        error:
+          type: string
+    Game:
+      type: object
+      required:
+      - choice
+      - token
+      properties:
+        choice:
+          type: string
+        token:
+          type: string
+    Result:
+      type: object
+      required:
+      - similarity
+      properties:
+        similarity:
+          type: number
+          minimum: 0
+          maximum: 1
+paths:
+  /api/game:
+    get:
+      description: Generate a new game.
+      responses:
+        "200":
+          description: Successful handling.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Game"
+        "429":
+          description: Too many requests.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "500":
+          description: Internal Error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /api/submit:
+    post:
+      description: Submit a game outcome.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Game"
+      responses:
+        "200":
+          description: Successful handling.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Result"
+        "401":
+          description: Expired or malformed token.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "403":
+          description: Duplicate game submission.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "429":
+          description: Too many requests.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "500":
+          description: Internal Error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"

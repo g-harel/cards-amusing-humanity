@@ -6,7 +6,7 @@ Player is presented with a board containing a question card (black) and a number
 
 ## Development
 
-All top level directories contain the source code for an individual, independent service. The only exception is for [`/website`](/website) which is the directory for all our frontend code/build tooling. Each service directory contains a `Dockerfile` which describes how the source code is packaged. Each directory also contains a kubernetes manifest (`manifest.yaml`) to configure how the image is deployed and what external services it needs (ex. databases).
+All top level directories contain the source code for an individual, independent service. Each service directory contains a `Dockerfile` which describes how the source code is packaged. Each directory also contains a kubernetes manifest (`manifest.yaml`) to configure how the image is deployed and what external services it needs (ex. databases).
 
 ### Environment Setup
 
@@ -49,17 +49,16 @@ _This will open the website in your default browser._
 
 Service APIs are described using the [OpenAPI Specification](https://github.com/OAI/OpenAPI-Specification).
 
-[Gateway](./gateway/openapi.yaml) | [Analytics](./analytics/openapi.yaml) | [Cards](./cards/openapi.yaml) | [Signing](./signing/openapi.yaml)
---------------------------------- | ------------------------------------- | ----------------------------- | ---------------------------------
+[Analytics](./analytics/openapi.yaml) | [Cards](./cards/openapi.yaml) | [Gateway](./gateway/openapi.yaml) | [Signing](./signing/openapi.yaml) | [Website](./website/openapi.yaml)
+------------------------------------- | ----------------------------- | --------------------------------- | --------------------------------- | ---------------------------------
 
 _These documents can be visualized using the [Swagger Editor](https://editor.swagger.io)._
 
-### Gateway
+### Website
 
 - serves static files for frontend
 - entrypoint for all request
-- handles routing
-- rate limiting (by IP)
+- forwards api requests to gateway
 
 ### Analytics (internal)
 
@@ -71,6 +70,11 @@ _These documents can be visualized using the [Swagger Editor](https://editor.swa
 
 - contains card data
 - creates rounds (and fetches a signature)
+
+### Gateway (internal)
+
+- rate limiting (by IP)
+- forwards requests to correct service
 
 ### Signing (internal)
 
@@ -109,7 +113,7 @@ _These documents can be visualized using the [Swagger Editor](https://editor.swa
             <ul>
                 <li>Analytics Service</li>
                 <li>Signing Service</li>
-                <li>Website</li>
+                <li>Website Service</li>
                 <li>Presentation</li>
             </ul>
         </td>
