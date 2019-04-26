@@ -1,16 +1,20 @@
 import os
 
-from flask import request, jsonify, make_response
+from flask import Flask, request, jsonify, make_response
 import jwt
 import requests
 
-from app import app, db, kv
-from models import Record
+from persistence.records import RecordStore
+from persistence.tokens import TokenStore
 
 # Token expiry in minutes.
 # Value is used to clear the token blacklist.
-exp = 60 * int(float(os.getenv("TOKEN_TTL_HOURS")))
+exp = 60 * int(float(os.getenv("TOKEN_TTL_HOURS", default=1)))
 
+app = Flask(__name__)
+
+tokens = TokenStore()
+records = RecordStore(app)
 
 # Helper to generate standardized error responses.
 def error_response(code, msg):
@@ -56,7 +60,7 @@ def submit():
         return error_response(500, "Internal error")
 
     # Check blacklist to see if game has already been submitted.
-    if kv.get(token):
+    if tokens.get(token):
         return error_response(403, "Duplicate submission")
 
     # Decode the token's data without validating it.
@@ -81,31 +85,18 @@ def submit():
             return error_response(400, "Malformed token payload, missing answer 'id'")
 
     # Create database Records to store game result.
-    rows = []
     for answer in answers:
         if answer["id"] != choice:
-            rows.append(Record( question=question_id, selected_answer=choice, other_answer=answer["id"]))
-
-    # Bulk insert new rows into the database.
-    db.session.bulk_save_objects(rows)
-    db.session.commit()
+            records.add(question_id, choice, answer["id"])
 
     # Temporarily add game to blacklist until it expires (with a safety buffer).
-    kv.setex(token, exp + 60, token)
+    tokens.set(token, exp + 60, token)
 
     # Count records that agree with the choice.
-    count_agree = Record.query \
-        .filter_by(question=question_id) \
-        .filter_by(selected_answer=choice) \
-        .filter(Record.other_answer.in_(answer["id"] for answer in answers)) \
-        .count()
+    count_agree = records.count_agree(question_id, choice, answers)
 
     # Count records that disagree with the choice.
-    count_disagree = Record.query \
-        .filter_by(question=question_id) \
-        .filter(Record.selected_answer.in_(answer["id"] for answer in answers)) \
-        .filter_by(other_answer=choice) \
-        .count()
+    count_disagree = records.count_disagree(question_id, choice, answers)
 
     # Respond with similarity.
     return jsonify({
@@ -115,6 +106,5 @@ def submit():
 
 if __name__ == "__main__":
     # Database contents are wiped on every start.
-    db.drop_all()
-    db.create_all()
+    records.reset()
     app.run(host="0.0.0.0")
