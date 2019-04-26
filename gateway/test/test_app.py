@@ -6,7 +6,7 @@ from unittest import mock
 @mock.patch.dict(os.environ, {'RATE_LIMITING_THRESHOLD': '3'})
 @mock.patch.dict(os.environ, {'BLOCKED_IP_TIMEOUT': '3'})
 def test_authorize_success():
-    # print os.environ
+    """ Testing a successful Request """
     from ..views.gateway import authorize_request
     req = mock.patch.object(flask, "request")
     environ = {'REMOTE_ADDR': '12.12.12.12'}
@@ -20,7 +20,7 @@ def test_authorize_success():
 @mock.patch.dict(os.environ, {'RATE_LIMITING_THRESHOLD': '2'})
 @mock.patch.dict(os.environ, {'BLOCKED_IP_TIMEOUT': '3'})
 def test_authorize_failure():
-    # print os.environ
+    """ Testing blocking scenario """ 
     from ..views.gateway import authorize_request
     req = mock.patch.object(flask, "request")
     environ = {'REMOTE_ADDR': '12.12.12.12'}
