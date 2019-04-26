@@ -28,7 +28,7 @@ def get_new_game():
         "answers": answers
     }
     # # Sign the game
-    res = requests.post("http://signing/sign", json={"payload" : game_data})
+    res = requests.post("http://signing/sign", json={"payload": game_data})
 
     if res.status_code == 200:
         return_data = ast.literal_eval(res.text)
