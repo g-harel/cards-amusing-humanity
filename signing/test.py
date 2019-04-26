@@ -11,8 +11,8 @@ class TestApp(unittest.TestCase):
         self.app = tested_app.test_client()
 
 
-    def test_sign_success(self):
-        data = {"payload": {"test_sign_success": ""}}
+    def test_sign_200(self):
+        data = {"payload": {"test_sign_200": ""}}
         response = self.app.post("/sign", data=json.dumps(data), content_type="application/json")
         self.assertEqual(response.status_code, 200)
 
@@ -20,13 +20,49 @@ class TestApp(unittest.TestCase):
         self.assertTrue(type(body.get("token")) is str)
 
 
-    def test_verify_success(self):
-        data = {"payload": {"test_verify_success": ""}}
+    def test_sign_400_missing_payload(self):
+        data = {}
+        response = self.app.post("/sign", data=json.dumps(data), content_type="application/json")
+        self.assertEqual(response.status_code, 400)
+
+
+    def test_sign_400_payload_empty(self):
+        data = {"payload": None}
+        response = self.app.post("/sign", data=json.dumps(data), content_type="application/json")
+        self.assertEqual(response.status_code, 400)
+
+
+    def test_sign_400_payload_wrong_type(self):
+        data = {"payload": ""}
+        response = self.app.post("/sign", data=json.dumps(data), content_type="application/json")
+        self.assertEqual(response.status_code, 400)
+
+
+    def test_verify_200(self):
+        data = {"payload": {"test_verify_200": ""}}
         sign_response = self.app.post("/sign", data=json.dumps(data), content_type="application/json")
 
         verify_response = self.app.post("/verify", data=str(sign_response.data, "utf8"), content_type="application/json")
 
         self.assertEqual(verify_response.status_code, 200)
+
+
+    def test_verify_400_missing_token(self):
+        data = {}
+        response = self.app.post("/verify", data=json.dumps(data), content_type="application/json")
+        self.assertEqual(response.status_code, 400)
+
+
+    def test_verify_400_token_wrong_type(self):
+        data = {"token": 0}
+        response = self.app.post("/verify", data=json.dumps(data), content_type="application/json")
+        self.assertEqual(response.status_code, 400)
+
+
+    def test_verify_401_token_invalid(self):
+        data = {"token": "test_verify_401_token_invalid"}
+        response = self.app.post("/verify", data=json.dumps(data), content_type="application/json")
+        self.assertEqual(response.status_code, 401)
 
 
     def test_verify_sign_contains_payload(self):
