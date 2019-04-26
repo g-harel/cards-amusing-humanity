@@ -2,29 +2,6 @@ openapi: 3.0.0
 info:
   title: Signing Service
   version: 1.0.0
-components:
-  schemas:
-    Error:
-      type: object
-      required:
-      - error
-      properties:
-        error:
-          type: string
-    Token:
-      type: object
-      required:
-      - token
-      properties:
-        token:
-          type: string
-    Payload:
-      type: object
-      required:
-      - payload
-      properties:
-        payload:
-          type: object
 paths:
   /sign:
     post:
@@ -34,26 +11,26 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/Payload"
+              $ref: "../types.yaml#/components/schemas/Payload"
       responses:
         "200":
           description: Successful handling.
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Token"
+                $ref: "../types.yaml#/components/schemas/Token"
         "400":
           description: Malformed request.
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
+                $ref: "../types.yaml#/components/schemas/Error"
         "500":
           description: Internal error.
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
+                $ref: "../types.yaml#/components/schemas/Error"
   /verify:
     post:
       description: Verify that the given JWT is valid.
@@ -62,7 +39,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/Token"
+              $ref: "../types.yaml#/components/schemas/Token"
       responses:
         "200":
           description: Valid token.
@@ -71,16 +48,16 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
+                $ref: "../types.yaml#/components/schemas/Error"
         "401":
           description: Expired or malformed token.
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
+                $ref: "../types.yaml#/components/schemas/Error"
         "500":
           description: Internal error.
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
+                $ref: "../types.yaml#/components/schemas/Error"

@@ -1,4 +1,4 @@
-openapi: "3.0.0"
+openapi: 3.0.0
 info:
   version: 1.0.0
   title: Cards Service
@@ -6,8 +6,7 @@ info:
 paths:
   /game:
     get:
-      description: |
-        Returns a new game and different game at each call
+      description: Returns a new game and different game at each call
       operationId: Get a new game.
       parameters:
         - in: query
@@ -21,29 +20,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Game"
+                $ref: "../types.yaml#/components/schemas/Game"
         "404":
           description: Can't find resources
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-
-
-components:
-  schemas:
-
-    Game:
-      required:
-        - token
-      properties:
-        token:
-          type: string
-
-    Error:
-      required:
-        - code
-        - message
-      properties:
-        message:
-          type: string
+                $ref: "../types.yaml#/components/schemas/Error"
