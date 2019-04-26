@@ -1,9 +1,9 @@
-from memory.storage import Storage
+from ..memory.storage import Storage
 
 
 def test_brewer_answers():
     """ Testing the logic of the brewer with a fake database """
-    from views.brewer import get_random_answer
+    from ..views.brewer import get_random_answer
     fake_db = FakeCardsDatabase()
     number_of_cards = 2
     random_answers = get_random_answer(number_of_cards, 'special', fake_db, True)
@@ -12,7 +12,7 @@ def test_brewer_answers():
 
 def test_brewer_questions():
     """ Testing the logic of the brewer with a fake database """
-    from views.brewer import get_random_question
+    from ..views.brewer import get_random_question
     fake_db = FakeCardsDatabase()
     number_of_cards = 3
     random_questions = get_random_question(number_of_cards, 'special', fake_db, True)
@@ -21,7 +21,7 @@ def test_brewer_questions():
 
 def test_brewer_answers_wrong_deck():
     """ Testing the logic of the brewer with a fake database """
-    from views.brewer import get_random_answer
+    from ..views.brewer import get_random_answer
     fake_db = FakeCardsDatabase()
     number_of_cards = 2
     random_answers = get_random_answer(number_of_cards, 'wrong', fake_db, True)
