@@ -9,7 +9,7 @@ nose = "*"
 [packages]
 flask = "*"
 flask-sqlalchemy = "*"
-psycopg2 = "*"
+psycopg2-binary = "*"
 pyjwt = "*"
 requests = "*"
 redis = "*"

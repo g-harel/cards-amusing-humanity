@@ -8,7 +8,9 @@ Player is presented with a board containing a question card (black) and a number
 
 All top level directories contain the source code for an individual, independent service. Each service directory contains a `Dockerfile` which describes how the source code is packaged. Each directory also contains a kubernetes manifest (`manifest.yaml`) to configure how the image is deployed and what external services it needs (ex. databases).
 
-### Environment Setup
+### Running
+
+**Requirements**
 
 Tool       | Version      | Reason                         | Install
 ---------- | ------------ | ------------------------------ | ------------------------------------------------------------------------------
@@ -17,11 +19,9 @@ Tool       | Version      | Reason                         | Install
 `minikube` | `>= v0.34.1` | Run kubernetes cluster locally | [kubernetes.io](https://kubernetes.io/docs/tasks/tools/install-minikube/)
 `skaffold` | `>= v0.25.0` | Live build/deploy to cluster   | [skaffold.dev](https://skaffold.dev/docs/getting-started/#installing-skaffold)
 
-### Running
-
 **Create local cluster**
 
-```
+```sh
 minikube start
 ```
 
@@ -29,7 +29,7 @@ _This step can be skipped if your `kubeconfig` is already configured to access t
 
 **Deploy application**
 
-```
+```sh
 skaffold dev
 ```
 
@@ -39,11 +39,30 @@ _Some features will not work until all pods are ready. This can be checked using
 
 **Open website (Optional)**
 
-```
+```sh
 minikube service website
 ```
 
 _This will open the website in your default browser._
+
+### Testing
+
+**Requirements**
+
+Tool       | Version          | Reason                           | Install
+---------- | ---------------- | -------------------------------- | -------------------------------------------------------------------------------------------
+`pipenv`   | `>= v2018.11.26` | Python dependency management     | [pipenv.readthedocs.io](https://pipenv.readthedocs.io/en/latest/install/#installing-pipenv)
+`node/npm` | `>= v11.10.0`    | JavaScript dependency management | [nodejs.org](https://nodejs.org/en/download/)
+
+**Run tests**
+
+```sh
+./test
+```
+
+_This will go through each service directory to install dependencies, and run the tests._
+
+_Script will exit immediately if any command exits with a non-zero code._
 
 ## Services
 

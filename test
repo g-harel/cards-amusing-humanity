@@ -1,0 +1,52 @@
+#!/bin/bash -e
+
+# Helper script to run all tests
+# Both `pipenv` and `npm` are required
+
+function install {
+    echo -e "\n >> \e[1;36mInstall: $1\e[0m\n"
+}
+
+function test {
+    echo -e "\n >> \e[1;35mTest: $1\e[0m\n"
+}
+
+#
+
+install "Analytics"
+(cd "analytics"; pipenv install)
+
+test "Analytics"
+(cd "analytics"; pipenv run -- nosetests)
+
+#
+
+install "Cards"
+(cd "cards"; pipenv install)
+
+test "Cards"
+(cd "cards"; pipenv run -- pytest)
+
+#
+
+install "Gateway"
+(cd "gateway"; pipenv install)
+
+test "Gateway"
+(cd "gateway"; pipenv run -- pytest)
+
+#
+
+install "Signing"
+(cd "signing"; pipenv install)
+
+test "Signing"
+(cd "signing"; pipenv run -- nosetests)
+
+#
+
+install "Website"
+(cd "website"; npm install)
+
+test "Website"
+(cd "website"; npm test)
