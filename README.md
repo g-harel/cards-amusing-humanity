@@ -73,33 +73,6 @@ Service APIs are described using the [OpenAPI Specification](https://github.com/
 
 _These documents can be visualized using the [Swagger Editor](https://editor.swagger.io)._
 
-### Website
-
-- serves static files for frontend
-- entrypoint for all request
-- forwards api requests to gateway
-
-### Analytics (internal)
-
-- records results from played rounds
-- enforces round signatures and only accepts them once
-- provides analytics on historical data (ex. most popular)
-
-### Card (internal)
-
-- contains card data
-- creates rounds (and fetches a signature)
-
-### Gateway (internal)
-
-- rate limiting (by IP)
-- forwards requests to correct service
-
-### Signing (internal)
-
-- sign arbitrary payloads (ex. JSON string)
-- verify signatures
-
 ## Students
 
 <table>
