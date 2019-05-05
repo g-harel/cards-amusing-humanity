@@ -4,16 +4,8 @@ import {ClientRequest, ClientResponse} from "rickety/client";
 
 import {IGameToken} from "./types";
 
-// Delay all requests to simulate network latency.
-class DelayClient extends DefaultClient {
-    async send(request: ClientRequest): Promise<ClientResponse> {
-        await new Promise((res) => setTimeout(res, 400 + 200 * Math.random()));
-        return super.send(request);
-    }
-}
-
 // Mock requests when hosted on "GitHub Pages".
-class MockClient extends DelayClient {
+class MockClient extends DefaultClient {
     async send(request: ClientRequest): Promise<ClientResponse> {
         if (!window.location.hostname.endsWith("github.io")) {
             return super.send(request);
@@ -52,4 +44,12 @@ class MockClient extends DelayClient {
     }
 }
 
-export default MockClient;
+// Delay all requests to simulate network latency.
+class DelayClient extends MockClient {
+    async send(request: ClientRequest): Promise<ClientResponse> {
+        await new Promise((res) => setTimeout(res, 400 + 200 * Math.random()));
+        return super.send(request);
+    }
+}
+
+export default DelayClient;
