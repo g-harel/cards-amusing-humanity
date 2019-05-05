@@ -1,18 +1,11 @@
 import jwt from "jsonwebtoken";
-import {Endpoint, DefaultClient} from "rickety";
+import {Endpoint} from "rickety";
 import {ClientRequest, ClientResponse} from "rickety/client";
 
+import BaseClient from "./client";
 import {IGameResult, IGameSubmit, IGameToken, IDeck} from "./types";
 
-class DelayClient extends DefaultClient {
-    async send(request: ClientRequest): Promise<ClientResponse> {
-        // Delay all requests to simulate network latency.
-        await new Promise((r) => setTimeout(r, 400 + 200 * Math.random()));
-        return super.send(request);
-    }
-}
-
-class CreateGameClient extends DelayClient {
+class CreateGameClient extends BaseClient {
     async send(request: ClientRequest): Promise<ClientResponse> {
         // Parse and remove body from the request.
         // GET requests cannot have a body.
@@ -39,7 +32,7 @@ class CreateGameClient extends DelayClient {
     }
 }
 
-class SubmitGameClient extends DelayClient {
+class SubmitGameClient extends BaseClient {
     async send(request: ClientRequest): Promise<ClientResponse> {
         const requestBody: IGameSubmit = JSON.parse(request.body);
 
